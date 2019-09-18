@@ -4,11 +4,15 @@ const User = use('App/Models/User')
 
 class SessionController {
 
-    async store({ request, auth }) {
+    async store({ request, auth, response }) {
         const data = request.only(["email", "password"])
 
-        const token = await auth.attempt(data.email, data.password)
-        const user = await User.findBy("email", data.email)
+        const token = await auth.attempt(data.email.toLowerCase(), data.password)
+        const user = await User.findBy("email", data.email.toLowerCase())
+
+        if(!user){
+            return response.status(406).send('Usuário ou senha inválido(s)')
+        }
 
         return {
             auth: token,

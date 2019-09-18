@@ -11,6 +11,7 @@ import PasswordTextField from '../../components/PasswordTextField';
 import MaskTextField from '../../components/MaskTextField';
 import Progress from '../../components/modal/Progress';
 import AlertModal from '../../components/modal/AlertModal';
+import moment from "moment";
 
 import validation from '../../validation/validation'
 import rules from './rules'
@@ -47,6 +48,7 @@ export default function SignUp({ navigation }) {
         navigation.navigate('Signin')
     }
 
+
     async function handleContinuar() {
         if (lastStep) {
             const result = validation({
@@ -58,12 +60,13 @@ export default function SignUp({ navigation }) {
             })
             setErrors(result ? result : {})
             if (!result) {
+                const newDataNascimento = moment(dataNascimento, 'DD/MM/YYYY')
                 // Se tudo estiver certo, cadastra...
                 const user = {
                     "nome": nome,
                     "email": email,
                     "password": password,
-                    "dataNascimento": dataNascimento
+                    "dataNascimento": newDataNascimento.format('YYYY-MM-DD')
                 }
                 await createUser(user)
             }
@@ -76,11 +79,32 @@ export default function SignUp({ navigation }) {
                 nome: rules.nome
             })
             setErrors(result ? result : {})
-
-            if (!result) {
+            const emailOK = await isEmailOk(email)
+            if (!result && emailOK) {
                 setLastStep(!lastStep)
             }
         }
+    }
+
+    async function isEmailOk(email) {
+        setShowProgress(true)
+        try {
+            await api.get(`/check-user-email/${email}`)
+            return true
+        } catch (error) {
+            if (!error.response) {
+                setAlertText('Não foi possível acessar o servidor')
+                setShowAlert(true)
+            } else {
+                setErrorMensage([{
+                    field: 'email',
+                    message: error.response.data
+                }])
+            }
+        } finally {
+            setShowProgress(false)
+        }
+        return false
     }
 
     async function createUser(user) {
@@ -90,12 +114,33 @@ export default function SignUp({ navigation }) {
             const data = response.data
             const token = data.auth.token
             await AsyncStorage.setItem('@token', token)
+            setErrorMensage([{
+                field: 'nenhum',
+                message: token
+            }])
         } catch (error) {
-            console.log(error)
-            setShowAlert(true)
-            setAlertText('Deu erro')
+            if (!error.status) {
+                setAlertText('Não foi possível acessar o servidor')
+                setShowAlert(true)
+            } else {
+                setErrorMensage(error.response.data)
+            }
         }
         setShowProgress(false)
+    }
+
+    function setErrorMensage(data) {
+        try {
+            const field = data[0].field
+            const message = data[0].message
+            setErrors({
+                [field]: message
+            })
+            setShowAlert(true)
+            setAlertText(message)
+        } catch (error) {
+            console.log('nao é uma mensagem de error valida')
+        }
     }
 
     managePasswordVisibility = () => {
@@ -106,7 +151,7 @@ export default function SignUp({ navigation }) {
         <SafeAreaView style={[styles.container]}>
             <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
             <Progress isVisible={showProgress} />
-            <AlertModal isVisible={showAlert} text={alertText} onComfirm={ () => setShowAlert(false) }/>
+            <AlertModal isVisible={showAlert} text={alertText} onComfirm={() => setShowAlert(false)} />
             <LinearGradient start={{ x: 1, y: 0 }} end={{ x: 0, y: 1 }} colors={['#7AE3DD', '#25ABC9']} style={styles.linearGradient}>
                 <ScrollView
                     keyboardShouldPersistTaps="always"

@@ -26,13 +26,14 @@ class User {
       "email.unique": "Este email já está em uso",
       "password.required": "Você precisa informar sua senha",
       "password.min": "Sua senha precisa de pelo menos dígitos",
+      "dataNascimento.date": "Informe uma data de nascimento válida",
       "dataNascimento.required": "Informe sua data de nascimento",
       "dataNascimento.dateFormat": "Informe uma data de nascimento válida"
     }
   }
 
   async fails (errorMessages) {
-    return this.ctx.response.send(errorMessages)
+    return this.ctx.response.status(500).send(errorMessages)
   }
 
 }

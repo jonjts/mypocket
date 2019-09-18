@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 var styles = require('./styles');
-import { View, TextInput, Text, Button } from 'react-native';
+import { View, Image, Text, Button } from 'react-native';
 import GradientButton from '../buttons/GradientButton'
 import Modal from "react-native-modal";
+import iconAlert from '../../assets/images/alert-circle.png';
 
 const AlertModal = ({ forwardedRef, ...rest }) => {
 
     return (
         <View >
             <Modal
-                {...rest}                
+                {...rest}
                 style={styles.modal}
                 ref={forwardedRef}
                 animationIn="zoomIn"
@@ -22,10 +23,16 @@ const AlertModal = ({ forwardedRef, ...rest }) => {
                 backdropOpacity={0.4}
             >
                 <View style={styles.content}>
-                    <Text style={styles.contentTitle}>{rest.text}</Text>
+                    <View>
+                        <Image
+                            style={{ width: 35, height: 35, alignSelf: 'center', justifyContent: 'center', alignContent: 'center' }}
+                            source={iconAlert} />
+                        <Text style={styles.contentTitle}>{rest.title ? rest.title : 'Atenção'}</Text>
+                    </View>
+                    <Text style={[styles.contentTitle, styles.contentMessage]}>{rest.text}</Text>
                     <GradientButton
-                        onPress={ () => rest.onComfirm() }
-                        text="Ok"
+                        onPress={() => rest.onComfirm() ? rest.onComfirm() : {}}
+                        text="VOLTAR"
                     />
                 </View>
             </Modal>

@@ -17,12 +17,14 @@
 const Route = use('Route')
 
 Route.group(() => {
-
   //User
   Route.post('users', 'UserController.store').validator('User')
 
   //Sessions
   Route.post('sessions', 'SessionController.store').validator('Session')
+
+  //Check User email
+  Route.get('check-user-email/:email', 'ChekUserEmailController.show')
 
 }).prefix('api')
 

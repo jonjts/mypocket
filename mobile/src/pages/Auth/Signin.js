@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
+import AsyncStorage from '@react-native-community/async-storage'
 var styles = require('./styles');
 import logo from '../../assets/images/logo.png'
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -22,9 +23,12 @@ import {
     Text,
     View,
 } from 'react-native';
+import api from '~/services/api';
 
 export default function Signin({ navigation }) {
 
+    const [showAlert, setShowAlert] = useState(false)
+    const [alertText, setAlertText] = useState('')
     const [hidePassword, setHidePassword] = useState(true)
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -39,12 +43,42 @@ export default function Signin({ navigation }) {
         navigation.navigate('Signup')
     }
 
-    function handleEntrar() {
-        const result = validation({
+    async function handleEntrar() {
+        const user = {
             "email": email,
             "password": password
-        }, rules)
-        setErrors(result)
+        }
+        const result = validation(user,
+            {
+                "email": rules.email,
+                "password": rules.password
+            })
+        setErrors(result ? result : {})
+        if (!result) {
+            await login(user);
+        }
+    }
+
+    async function login(user) {
+        setShowProgress(true)
+        try {
+            const response = await api.post('/sessions', user)
+            const data = response.data
+            const token = data.auth.token
+            await AsyncStorage.setItem('@token', token)
+            setAlertText(token)
+            setShowAlert(true)
+        } catch (error) {
+            if (!error.response) {
+                setAlertText('Não foi possível acessar o servidor')
+            } else {
+                setAlertText('Usuário ou senha inválido(s)')
+            }
+            setShowAlert(true)
+        } finally {
+            setShowProgress(false)
+        }
+
     }
 
     managePasswordVisibility = () => {
@@ -56,6 +90,7 @@ export default function Signin({ navigation }) {
             <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
             <LinearGradient start={{ x: 1, y: 0 }} end={{ x: 0, y: 1 }} colors={['#7AE3DD', '#25ABC9']} style={styles.linearGradient}>
                 <Progress isVisible={showProgress} />
+                <AlertModal isVisible={showAlert} text={alertText} onComfirm={() => setShowAlert(false)} />
                 <ScrollView
                     keyboardShouldPersistTaps="always"
                     showsVerticalScrollIndicator={false}

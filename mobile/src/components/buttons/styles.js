@@ -12,6 +12,11 @@ module.exports = StyleSheet.create({
         borderRadius: 100,
         elevation: 1,
     },
+    buttonEntar: {
+        height: 48,
+        minWidth: 121,
+        borderRadius: 100,
+    },
     linearGradient: {
         flex: 1,
         justifyContent: 'center',

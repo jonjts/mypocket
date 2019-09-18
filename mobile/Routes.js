@@ -17,12 +17,13 @@ const authNavigation = createStackNavigator({
     screen: Signup,
     navigationOptions: () => ({
       headerTransparent: true,
+      headerStyle: {marginTop: 15}
     }),
   }
 },
   {
     initialRouteName: 'Signin',
-    transitionConfig: () => zoomIn(),
+    transitionConfig: () => zoomIn(500),
   },
 );
 
