@@ -79,15 +79,17 @@ export default function SignUp({ navigation }) {
                 nome: rules.nome
             })
             setErrors(result ? result : {})
-            const emailOK = await isEmailOk(email)
-            if (!result && emailOK) {
-                setLastStep(!lastStep)
+            if (!result) {
+                const emailOK = await isEmailOk(email)
+                if (emailOK) {
+                    setLastStep(!lastStep)
+                }
             }
         }
     }
-    
-    function loged(){
-        navigation.navigate('Wellcome', { screen: 'Signup'})
+
+    function loged() {
+        navigation.navigate('Wellcome', { screen: 'Signup' })
     }
 
     async function isEmailOk(email) {
