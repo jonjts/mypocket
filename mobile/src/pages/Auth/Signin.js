@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import AsyncStorage from '@react-native-community/async-storage'
 var styles = require('./styles');
 import logo from '../../assets/images/logo.png'
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -8,6 +7,7 @@ import TextField from '../../components/TextField';
 import PasswordTextField from '../../components/PasswordTextField';
 import AlertModal from '../../components/modal/AlertModal';
 import Progress from '../../components/modal/Progress';
+import util from "../../utils";
 
 import validation from '../../validation/validation'
 import rules from './rules'
@@ -59,16 +59,20 @@ export default function Signin({ navigation }) {
         }
     }
 
+    function loged(){
+        navigation.navigate('Wellcome', { screen: 'Signin'})
+    }
+
     async function login(user) {
         setShowProgress(true)
         try {
             const response = await api.post('/sessions', user)
             const data = response.data
             const token = data.auth.token
-            await AsyncStorage.setItem('@token', token)
-            setAlertText(token)
-            setShowAlert(true)
+            await util.saveUser(data)
+            loged()
         } catch (error) {
+            console.log(error)
             if (!error.response) {
                 setAlertText('Não foi possível acessar o servidor')
             } else {

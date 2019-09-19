@@ -1,41 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import logo from '../assets/images/logo.png'
-import Icon from 'react-native-vector-icons/FontAwesome';
+import logo from '../../assets/images/logo.png'
+import utils from '../../utils'
 
 import {
-    Platform,
-    ScrollView,
     StatusBar,
-    KeyboardAvoidingView,
     SafeAreaView,
-    StyleSheet,
     Image,
-    TextInput,
-    TouchableOpacity,
     Text,
     View
 } from 'react-native';
+import util from '../../utils';
 
 export default function SplashScreen({ navigation }) {
-
-    const viewStyles = [
-        { backgroundColor: 'orange' }
-    ];
-    const textStyles = {
-        color: 'white',
-        fontSize: 40,
-        fontWeight: 'bold'
-    };
 
     useEffect(() => {
         goToAuth()
     }, [])
 
     async function goToAuth() {
-        const data = await this.performTimeConsumingTask();
+        await this.performTimeConsumingTask();
 
-        if (data !== null) {
+        const credentials = await util.credentials()
+
+        if (credentials) {
+            navigation.navigate('Main')
+        } else {
             navigation.navigate('Auth')
         }
     }
@@ -65,12 +55,12 @@ export default function SplashScreen({ navigation }) {
                 <Image
                     style={{ width: 153, height: 153 }}
                     source={logo} />
-                <View style={[{ display: 'flex', flexDirection: 'row', paddingTop: 20}]}>
-                <Text style={[textStyle]}>
-                    MY
+                <View style={[{ display: 'flex', flexDirection: 'row', paddingTop: 20 }]}>
+                    <Text style={[textStyle]}>
+                        MY
                 </Text>
-                <Text style={[textStyle, {fontWeight:'bold'}]}>
-                    POCKET
+                    <Text style={[textStyle, { fontWeight: 'bold' }]}>
+                        POCKET
                 </Text>
                 </View>
             </LinearGradient>

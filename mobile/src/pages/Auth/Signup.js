@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import AsyncStorage from '@react-native-community/async-storage'
 import api from '../../services/api'
 var styles = require('./styles');
 import logo from '../../assets/images/logo.png'
@@ -12,6 +11,7 @@ import MaskTextField from '../../components/MaskTextField';
 import Progress from '../../components/modal/Progress';
 import AlertModal from '../../components/modal/AlertModal';
 import moment from "moment";
+import util from "../../utils";
 
 import validation from '../../validation/validation'
 import rules from './rules'
@@ -85,6 +85,10 @@ export default function SignUp({ navigation }) {
             }
         }
     }
+    
+    function loged(){
+        navigation.navigate('Wellcome', { screen: 'Signup'})
+    }
 
     async function isEmailOk(email) {
         setShowProgress(true)
@@ -113,11 +117,8 @@ export default function SignUp({ navigation }) {
             const response = await api.post("/users", user)
             const data = response.data
             const token = data.auth.token
-            await AsyncStorage.setItem('@token', token)
-            setErrorMensage([{
-                field: 'nenhum',
-                message: token
-            }])
+            await util.saveUser(data)
+            loged()
         } catch (error) {
             if (!error.status) {
                 setAlertText('Não foi possível acessar o servidor')
