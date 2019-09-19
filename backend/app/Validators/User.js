@@ -13,7 +13,7 @@ class User {
         rule('date'),
         rule('dateFormat', 'YYYY-MM-DD'),
       ],
-      email: `required|email|unique:users,email,id${checkOwnEmail}`,
+      email: `required|email|unique:users,email${checkOwnEmail}`,
       password: 'required|min:6',
       nome: 'required',
     }

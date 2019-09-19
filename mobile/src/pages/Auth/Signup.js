@@ -97,7 +97,7 @@ export default function SignUp({ navigation }) {
             return true
         } catch (error) {
             if (!error.response) {
-                setAlertText('Não foi possível acessar o servidor')
+                setAlertText('Não foi possível realizar a solicitação')
                 setShowAlert(true)
             } else {
                 setErrorMensage([{
@@ -116,7 +116,6 @@ export default function SignUp({ navigation }) {
         try {
             const response = await api.post("/users", user)
             const data = response.data
-            const token = data.auth.token
             await util.saveUser(data)
             loged()
         } catch (error) {
