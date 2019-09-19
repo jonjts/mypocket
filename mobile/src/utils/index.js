@@ -5,12 +5,14 @@ const util = {
     saveUser: async (data) => {
         const realm = await getRealm();
 
+        console.log(data.user)
+
         realm.write(() => {
             //Limpa o banco
             let users = realm.objects('User')
             realm.delete(users)
 
-            realm.create('User', data.user, false);
+            realm.create('User', data.user);
         });
 
         await AsyncStorage.setItem('@token', data.auth.token)

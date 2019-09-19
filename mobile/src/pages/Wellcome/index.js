@@ -31,7 +31,7 @@ export default function Wellcome({ navigation }) {
     return new Promise((resolve) =>
       setTimeout(
         () => { resolve('result') },
-        2000
+        3000
       )
     )
   }

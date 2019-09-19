@@ -60,6 +60,7 @@ export default function Signin({ navigation }) {
     }
 
     function loged(){
+        console.log('nova tela')
         navigation.navigate('Wellcome', { screen: 'Signin'})
     }
 
@@ -70,6 +71,7 @@ export default function Signin({ navigation }) {
             const data = response.data
             const token = data.auth.token
             await util.saveUser(data)
+            console.log('terminou o save')
             loged()
         } catch (error) {
             console.log(error)
@@ -98,14 +100,14 @@ export default function Signin({ navigation }) {
                 <ScrollView
                     keyboardShouldPersistTaps="always"
                     showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{ flex: 1, justifyContent: 'space-between', paddinnBottom: 40, }}
+                    contentContainerStyle={{ flex: 1, justifyContent: 'space-between', paddinnBottom: 30, }}
                 >
                     <KeyboardAvoidingView
                         style={styles.gridContainer}
                         behavior='padding'
                         enabled={Platform.OS === 'ios'}>
                         <View style={styles.card}>
-                            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -50, paddingBottom: 10 }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -50, paddingBottom: 6 }}>
                                 <Image
                                     style={{ width: 85, height: 85 }}
                                     source={logo} />
@@ -115,7 +117,7 @@ export default function Signin({ navigation }) {
                                     Login
                             </Text>
                             </View>
-                            <View style={{ flexDirection: 'column', justifyContent: 'flex-start', }}>
+                            <View style={{ flexDirection: 'column', justifyContent: 'flex-start', paddingTop: 4}}>
                                 <TextField
                                     label="Email"
                                     placeholder="Email..."
@@ -140,14 +142,14 @@ export default function Signin({ navigation }) {
                                     secureTextEntry={hidePassword}
                                     style={styles.input} />
                             </View>
-                            <View style={{ flexDirection: 'row', justifyContent: 'center', paddingBottom: 23, paddingTop: 19 }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'center', paddingBottom: 16, paddingTop: 15 }}>
                                 <TouchableOpacity>
                                     <Text
                                         style={[styles.labelForgetPassword, { textDecorationLine: 'underline' },]}
                                     >Esqueci Minha Senha</Text>
                                 </TouchableOpacity>
                             </View>
-                            <View style={{ flexDirection: 'row', justifyContent: 'center', paddingBottom: 20 }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'center', paddingBottom: 19 }}>
                                 <TouchableOpacity
                                     style={styles.buttonEntar}
                                     onPress={handleEntrar}

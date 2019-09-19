@@ -27,7 +27,6 @@ const PasswordTextField = props => {
                 <TextField
                     {...props}
                     label={null}
-                    keyboardType={Platform.OS == 'ios' ? 'default' : 'visible-password'}
                     underlineColorAndroid="transparent"
                     secureTextEntry={hidePassword}
                     style={styles.textBox} />

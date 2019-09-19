@@ -6,8 +6,8 @@ class ChekUserEmailController {
 
     async show({ params, response }) {
         const { email } = params
-        const user = await User.findBy('email', email)
-        if (user) {
+        const user = await User.find({ 'email': email })
+        if (user.size > 0) {
             return response.status(500).send('Esse email já está em uso')
         } else {
             return response.send('Email válido')
