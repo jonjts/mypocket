@@ -107,7 +107,7 @@ export default function Signin({ navigation }) {
                         behavior='padding'
                         enabled={Platform.OS === 'ios'}>
                         <View style={styles.card}>
-                            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -50, paddingBottom: 6 }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -45, paddingBottom: 6 }}>
                                 <Image
                                     style={{ width: 85, height: 85 }}
                                     source={logo} />
@@ -149,7 +149,7 @@ export default function Signin({ navigation }) {
                                     >Esqueci Minha Senha</Text>
                                 </TouchableOpacity>
                             </View>
-                            <View style={{ flexDirection: 'row', justifyContent: 'center', paddingBottom: 19 }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'center', paddingBottom: 15 }}>
                                 <TouchableOpacity
                                     style={styles.buttonEntar}
                                     onPress={handleEntrar}
