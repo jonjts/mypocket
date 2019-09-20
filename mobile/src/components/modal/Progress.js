@@ -1,6 +1,6 @@
 import React from 'react';
 var styles = require('./styles');
-import { View, TextInput, Text, Button } from 'react-native';
+import { View, } from 'react-native';
 import Modal from "react-native-modal";
 
 import * as Progress from 'react-native-progress';
