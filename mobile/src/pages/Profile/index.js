@@ -7,6 +7,7 @@ import Header from '~/components/Header'
 import utils from '~/utils'
 import Icon from 'react-native-vector-icons/Feather';
 import getRealm from '~/services/realm'
+import QuestionModal from '~/components/modal/QuestionModal'
 
 var styles = require('./styles');
 
@@ -24,19 +25,25 @@ import {
 const Profile = ({ navigation, updateUserSuccess }) => {
 
     const [user, setUser] = useState({})
+    const [showLogout, setShowLogout] = useState(false)
 
 
     useEffect(() => {
         fillUserData()
     }, [])
 
+    function handleLogout() {
+        utils.logout()
+        navigation.navigate('Auth')
+
+    }
 
     function handleEditBasic() {
         navigation.navigate('EditProfile')
     }
 
     function handleEditPassword() {
-        navigation.navigate('EditPassword', {email: user.email})
+        navigation.navigate('EditPassword', { email: user.email })
     }
 
     async function fillUserData() {
@@ -57,6 +64,19 @@ const Profile = ({ navigation, updateUserSuccess }) => {
     return (
         <View style={{ display: 'flex', flex: 1, backgroundColor: '#F3F3F3' }}>
             <Header />
+            <QuestionModal
+                isVisible={showLogout}
+                confirmAction={handleLogout}
+                cofirmText="SIM"
+                backText="NÃO"
+                backAction={() => setShowLogout(false)}
+            >
+
+                <Text style={[styles.email, {fontSize: 16}]}>
+                    Deseja sair?
+                </Text>
+
+            </QuestionModal>
             <View style={
                 utils.styles.mainContainer
             }>
@@ -147,7 +167,9 @@ const Profile = ({ navigation, updateUserSuccess }) => {
                                 </View>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => setShowLogout(!showLogout)}
+                        >
                             <View style={styles.containerValue}>
                                 <Icon
                                     name="power"

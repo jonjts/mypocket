@@ -213,12 +213,12 @@ const Edit = ({ navigation, updateUser }) => {
                                 <View
                                     style={{
                                         display: 'flex',
-                                        flex: 1,
                                         flexDirection: 'row',
+                                        flexWrap: 'wrap',
                                         justifyContent: 'space-around',
                                     }}>
                                     <TouchableOpacity
-                                        style={{ alignSelf: 'center', height: 30, paddingRight: 45 }}
+                                        style={{ alignSelf: 'flex-end', height: 30, paddingRight: 40 }}
                                         onPress={() => navigation.goBack()}>
                                         <Text
                                             style={{ color: '#105762' }}

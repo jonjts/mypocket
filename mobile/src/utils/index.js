@@ -12,7 +12,10 @@ const util = {
         console.log(data.user)
 
         realm.write(() => {
-            realm.create('User', data.user);
+            const user = realm.objects('User').filtered(` _id = '${data.user._id}'`);
+            if (!user) {
+                realm.create('User', data.user);
+            }
         });
 
         await AsyncStorage.setItem('@token', data.auth.token)
@@ -36,6 +39,12 @@ const util = {
     },
     logout: async () => {
         await AsyncStorage.clear()
+        const credentials = await util.credentials()
+        const realm = await getRealm();
+        realm.write(() => {
+            const user = realm.objects('User').filtered(` _id = '${credentials.user_id}'`);
+            realm.delete(user)
+        });
     },
     headerHeight: () => {
         return maxHeaderHeight
