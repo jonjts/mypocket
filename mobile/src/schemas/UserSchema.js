@@ -4,10 +4,10 @@ export default class UserSchema {
     primaryKey: '_id',
     properties: {
       _id: { type: 'string', indexed: true },
-      nome: 'string',
+      nome: { type: 'string', optional: false },
       dataNascimento: 'date',
       email: 'string',
-      avatar: { type: 'string', optional: true},
+      avatar: { type: 'string', optional: true },
       loginSource: { type: 'string', optional: true },
       loginToken: { type: 'string', optional: true },
       created_at: 'date',

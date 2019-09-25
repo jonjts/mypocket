@@ -35,4 +35,7 @@ Route.group(() => {
   //User
   Route.put('users/:id', 'UserController.update')
 
+  //Password
+  Route.put('password/', 'PasswordController.update')
+
 }).prefix('api').middleware('auth')

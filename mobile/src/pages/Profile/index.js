@@ -35,6 +35,10 @@ const Profile = ({ navigation, updateUserSuccess }) => {
         navigation.navigate('EditProfile')
     }
 
+    function handleEditPassword() {
+        navigation.navigate('EditPassword', {email: user.email})
+    }
+
     async function fillUserData() {
         const realm = await getRealm();
         const credentials = await utils.credentials()
@@ -58,12 +62,12 @@ const Profile = ({ navigation, updateUserSuccess }) => {
             }>
                 <Text
                     style={
-                        [utils.styles.headerSubTitle, ]
+                        [utils.styles.headerSubTitle,]
                     }
                 >
                     Perfil
                 </Text>
-                <Card style={{ flex: 1, marginTop: 50, alignSelf: "center"}}>
+                <Card style={{ flex: 1, marginTop: 50, alignSelf: "center" }}>
                     <View
                         style={[utils.styles.avatar,
                         { alignSelf: 'center', marginTop: -50 }]}
@@ -82,7 +86,7 @@ const Profile = ({ navigation, updateUserSuccess }) => {
                             {user.email}
                         </Text>
                         <TouchableOpacity
-                            onPress={ handleEditBasic}
+                            onPress={handleEditBasic}
                         >
                             <View style={styles.containerValue}>
                                 <Icon
@@ -102,7 +106,7 @@ const Profile = ({ navigation, updateUserSuccess }) => {
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            onPress={ handleEditBasic }
+                            onPress={handleEditBasic}
                         >
                             <View style={styles.containerValue}>
                                 <Icon
@@ -125,7 +129,10 @@ const Profile = ({ navigation, updateUserSuccess }) => {
                             <View style={[styles.line,]} />
                         </View>
 
-                        <TouchableOpacity style={{ paddingBottom: 10 }}>
+                        <TouchableOpacity
+                            style={{ paddingBottom: 10 }}
+                            onPress={handleEditPassword}
+                        >
                             <View style={styles.containerValue}>
                                 <Icon
                                     name="key"

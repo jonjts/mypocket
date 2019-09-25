@@ -11,7 +11,7 @@ module.exports = StyleSheet.create({
     email: {
         color: '#BDBDBD',
         fontSize: 14,
-        paddingBottom: 15,
+        paddingBottom: 22,
         paddingTop: 14,
         alignSelf: 'center'
     },

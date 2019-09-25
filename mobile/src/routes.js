@@ -17,6 +17,7 @@ import Dashboard from '~/pages/Dashboard'
 //Profile
 import Profile from '~/pages/Profile'
 import EditProfile from '~/pages/Profile/Edit'
+import EditPassword from '~/pages/Profile/EditPassword'
 
 const authNavigation = createStackNavigator({
   Signin: {
@@ -58,7 +59,14 @@ const profileNavigation = createStackNavigator({
       header: null
     }),
   },
+  EditPassword: {
+    screen: EditPassword,
+    navigationOptions: () => ({
+      header: null
+    }),
+  }
 },
+
   {
     initialRouteName: 'Profile',
     transitionConfig: () => fadeIn(500),

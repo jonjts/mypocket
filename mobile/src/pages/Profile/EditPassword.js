@@ -3,11 +3,11 @@ import React, { useState, useEffect } from 'react';
 import validation from '../../validation/validation'
 import rules from '../Auth/rules'
 import moment from "moment";
-import TextField from '../../components/TextField';
-import MaskTextField from '../../components/MaskTextField';
+import PasswordTextField from '~/components/PasswordTextField'
 import GradientButton from '~/components/buttons/GradientButton'
 import Progress from '~/components/modal/Progress'
 import AlertModal from '~/components/modal/AlertModal'
+import api from '~/services/api'
 
 import Card from '~/components/Card'
 import Header from '~/components/Header'
@@ -18,10 +18,6 @@ import AsyncStorage from '@react-native-community/async-storage'
 
 var styles = require('./styles');
 
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import UsersActions from "../../store/ducks/users";
-
 import {
     ScrollView,
     View,
@@ -30,20 +26,18 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-const Edit = ({ navigation, updateUser }) => {
+const Edit = ({ navigation }) => {
 
-    const [nome, setNome] = useState('')
-    const [dataNascimento, setDataNascimento] = useState('')
-    const [email, setEmail] = useState('')
+    const [email, setEmail] = useState(navigation.getParam("email"))
+    const [oldPassword, setOldPassword] = useState('')
+    const [password, setPassword] = useState('')
     const [errors, setErrors] = useState({});
+    const [hidePassword, setHidePassword] = useState(true)
+    const [hideOldPassword, setOldHidePassword] = useState(true)
     const [showProgress, setShowProgress] = useState(false)
     const [showAlert, setShowAlert] = useState(false)
     const [alertText, setAlertText] = useState('')
 
-
-    useEffect(() => {
-        fillUserData()
-    }, [])
 
     function setErrorMensage(data) {
         if (!data) {
@@ -56,20 +50,10 @@ const Edit = ({ navigation, updateUser }) => {
         }
     }
 
-    async function fillUserData() {
-        const realm = await getRealm();
-        const credentials = await utils.credentials()
-
-        const user = realm.objects('User').filtered(` _id = '${credentials.user_id}'`)[0];
-        setNome(user.nome)
-        setDataNascimento(formatDate(user.dataNascimento))
-        setEmail(user.email)
-    }
-
     async function valid(user) {
         const result = validation(user, {
-            nome: rules.nome,
-            dataNascimento: rules.dataNascimento
+            oldPassword: rules.password,
+            password: rules.password
         })
         setErrorMensage(result)
         return !result
@@ -77,48 +61,31 @@ const Edit = ({ navigation, updateUser }) => {
 
     async function handleAlterar() {
         const user = {
-            nome: nome,
-            dataNascimento: dataNascimento
+            oldPassword: oldPassword,
+            password: password
         }
         const isValid = await valid(user)
         if (isValid) {
-            const newDataNascimento = moment(dataNascimento, 'DD/MM/YYYY')
-            // Se tudo estiver certo, cadastra...
-            user["dataNascimento"] = newDataNascimento.format('YYYY-MM-DD')
-            const credentials = await utils.credentials()
-            user["_id"] = credentials.user_id
-            await updateLocalUser(user)
+            await updatePassword(user)
         }
     }
 
-    async function updateLocalUser(user) {
+    async function updatePassword(user) {
+        setShowProgress(true)
         try {
-            const userId = await AsyncStorage.getItem("@user-id")
-            const realm = await getRealm();
-
-            realm.write(() => {
-                const u = realm.objects('User').filtered(` _id = '${userId}'`)[0]
-                u.nome = user.nome
-                u.dataNascimento = user.dataNascimento
-            });
-            updateUser(user)
+            await api.put('/password', user)
             navigation.goBack()
         } catch (error) {
             console.log(error)
             setShowAlert(true)
             if (error.status) {
-                setAlertText("Não foi possível finalizar operação: Verifique sua conexão.")
-            } else {
                 setAlertText("Não foi possível finalizar operação. Tente novamente mais tarde.")
+            } else {
+                setAlertText("Não foi possível finalizar operação: Verifique sua senha atual")
             }
         }
+        setShowProgress(false)
     }
-
-    function formatDate(dataNascimento) {
-        const newDataNascimento = moment(dataNascimento, 'DD/MM/YYYY')
-        return newDataNascimento.format('DD/MM/YYYY')
-    }
-
 
     return (
         <View style={{ display: 'flex', flex: 1, backgroundColor: '#F3F3F3' }}>
@@ -155,53 +122,13 @@ const Edit = ({ navigation, updateUser }) => {
                     <ScrollView
                         keyboardShouldPersistTaps="always"
                         showsVerticalScrollIndicator={false}
-                        //contentContainerStyle={{ flex: 1, justifyContent: 'space-between', }}
+                    //contentContainerStyle={{ flex: 1, justifyContent: 'space-between', }}
                     >
                         <KeyboardAvoidingView
                             style={{ flex: 1, alignItems: 'center', flexDirection: 'column' }}
                             behavior='padding'
                             enabled={Platform.OS === 'ios'}>
 
-                            <View style={{ paddingBottom: 10 }}>
-                                <TextField
-                                    autoCapitalize="words"
-                                    label="Nome"
-                                    placeholder='Podemos te chamar de...'
-                                    value={nome}
-                                    error={errors.nome}
-                                    onChangeText={setNome}
-                                    returnKeyType={"next"}
-                                    autoCompleteType='email'
-                                />
-                            </View>
-
-                            <View style={{ flexDirection: 'column', paddingBottom: 10 }}>
-                                <View style={styles.textBoxBtnHolder}>
-                                    <MaskTextField
-                                        label="Data de nascimento"
-                                        onChangeText={(formatted, extracted) => {
-                                            setDataNascimento(formatted)
-                                        }}
-                                        error={errors.dataNascimento}
-                                        type={'datetime'}
-                                        style={[styles.input,]}
-                                        placeholder='Sua data de nascimento...'
-                                        returnKeyType={"next"}
-                                        autoCorrect={false}
-                                        options={{
-                                            format: 'DD/MM/YYYY'
-                                        }}
-                                        value={dataNascimento}
-                                        paddingLeft={16}
-                                    />
-                                    <View style={styles.visibilityBtn} >
-                                        <Icon
-                                            size={16}
-                                            color="#D0C9D6"
-                                            name="calendar" />
-                                    </View>
-                                </View>
-                            </View>
                             <View
                                 style={{
                                     flex: 1,
@@ -210,6 +137,28 @@ const Edit = ({ navigation, updateUser }) => {
                                     marginBottom: 36
                                 }}
                             >
+                                <View style={{ flexDirection: 'column', justifyContent: 'flex-start', paddingBottom: 10 }}>
+                                    <PasswordTextField
+                                        error={errors.oldPassword}
+                                        label="Senha atual"
+                                        placeholder="Sua senha atual..."
+                                        value={oldPassword}
+                                        onChangeText={setOldPassword}
+                                        underlineColorAndroid="transparent"
+                                        secureTextEntry={hideOldPassword}
+                                        style={styles.input} />
+                                </View>
+                                <View style={{ flexDirection: 'column', justifyContent: 'flex-start', paddingBottom: 15 }}>
+                                    <PasswordTextField
+                                        error={errors.password}
+                                        label="Nova senha"
+                                        placeholder="Sua nova senha..."
+                                        value={password}
+                                        onChangeText={setPassword}
+                                        underlineColorAndroid="transparent"
+                                        secureTextEntry={hidePassword}
+                                        style={styles.input} />
+                                </View>
                                 <View
                                     style={{
                                         display: 'flex',
@@ -240,14 +189,4 @@ const Edit = ({ navigation, updateUser }) => {
     )
 }
 
-const mapStateToProps = state => ({
-    users: state.users
-});
-
-const mapDispatchToProps = dispatch =>
-    bindActionCreators(UsersActions, dispatch);
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Edit);
+export default Edit

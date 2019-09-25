@@ -21,7 +21,8 @@ class UserController {
         const id = params.id
 
         let user = await User.findOne({ "_id": id })
-        if (!user) {
+        const userLoged = await auth.getUser()
+        if (!user || userLoged._id != id) {
             return response.status(406).send('Acesso negado')
         }
 
