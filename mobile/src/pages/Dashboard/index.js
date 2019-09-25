@@ -22,11 +22,7 @@ export default function Dashboard({ navigation }) {
       <Header >
         
       </Header>
-      <TouchableOpacity
-        onPress={() => utils.logout()}
-      >
-        <Text >Limpar a parada</Text>
-      </TouchableOpacity>
+      
     </SafeAreaView>
   )
 }

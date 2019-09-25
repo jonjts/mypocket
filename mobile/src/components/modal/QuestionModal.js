@@ -12,7 +12,7 @@ const QuestionModal = ({ forwardedRef, ...rest }) => {
             <View>
                 <Icon
                     style={{ alignSelf: 'center', justifyContent: 'center', alignContent: 'center' }}
-                    name="alert-circle"
+                    name="help-circle"
                     size={35}
                     color="#105762"
                 />

@@ -87,7 +87,7 @@ const Profile = ({ navigation, updateUserSuccess }) => {
                 >
                     Perfil
                 </Text>
-                <Card style={{ flex: 1, marginTop: 50, alignSelf: "center" }}>
+                <Card style={{ flex: 1, marginTop: 50, alignSelf: "center", marginBottom: 20 }}>
                     <View
                         style={[utils.styles.avatar,
                         { alignSelf: 'center', marginTop: -50 }]}

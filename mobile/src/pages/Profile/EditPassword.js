@@ -78,7 +78,7 @@ const Edit = ({ navigation }) => {
         } catch (error) {
             console.log(error)
             setShowAlert(true)
-            if (error.status) {
+            if (!error.response) {
                 setAlertText("Não foi possível finalizar operação. Tente novamente mais tarde.")
             } else {
                 setAlertText("Não foi possível finalizar operação: Verifique sua senha atual")
@@ -96,7 +96,7 @@ const Edit = ({ navigation }) => {
                 rightAcion={() => navigation.goBack()}
             />
             <View style={
-                utils.styles.mainContainer
+                [utils.styles.mainContainer]
             }>
                 <Text
                     style={
@@ -105,25 +105,30 @@ const Edit = ({ navigation }) => {
                 >
                     Editar Perfil
                 </Text>
-                <Card style={{ flex: 1, marginTop: 50, alignSelf: "center", paddingLeft: 0, paddingRight: 0, }}>
-                    <View
-                        style={[utils.styles.avatar,
-                        { alignSelf: 'center', marginTop: -50 }]}
-                    >
-                        <Icon
-                            name="user"
-                            size={24}
-                            color="#fff"
-                        />
-                    </View>
-                    <Text style={styles.email}>
-                        {email}
-                    </Text>
-                    <ScrollView
-                        keyboardShouldPersistTaps="always"
-                        showsVerticalScrollIndicator={false}
-                    //contentContainerStyle={{ flex: 1, justifyContent: 'space-between', }}
-                    >
+
+                <ScrollView
+                    keyboardShouldPersistTaps="always"
+                    showsVerticalScrollIndicator={false}
+                >
+                    <Card
+                        style={{
+                            flex: 1, marginTop: 50,
+                            alignSelf: "center", paddingLeft: 0, paddingRight: 0,
+                            marginBottom: 10
+                        }}>
+                        <View
+                            style={[utils.styles.avatar,
+                            { alignSelf: 'center', marginTop: -50 }]}
+                        >
+                            <Icon
+                                name="user"
+                                size={24}
+                                color="#fff"
+                            />
+                        </View>
+                        <Text style={styles.email}>
+                            {email}
+                        </Text>
                         <KeyboardAvoidingView
                             style={{ flex: 1, alignItems: 'center', flexDirection: 'column' }}
                             behavior='padding'
@@ -165,9 +170,10 @@ const Edit = ({ navigation }) => {
                                         flexDirection: 'row',
                                         flexWrap: 'wrap',
                                         justifyContent: 'space-around',
+                                        marginBottom: 10
                                     }}>
                                     <TouchableOpacity
-                                        style={{ alignSelf: 'flex-end', height: 30,}}
+                                        style={{ alignSelf: 'flex-end', height: 30, }}
                                         onPress={() => navigation.goBack()}>
                                         <Text
                                             style={{ color: '#105762' }}
@@ -182,8 +188,9 @@ const Edit = ({ navigation }) => {
                                 </View>
                             </View>
                         </KeyboardAvoidingView>
-                    </ScrollView>
-                </Card>
+                    </Card>
+
+                </ScrollView>
             </View>
         </View>
     )

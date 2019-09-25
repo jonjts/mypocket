@@ -23,7 +23,7 @@ const Header = ({ ...props }) => {
                     >
                         <Icon
                             name="more-vertical"
-                            size={15}
+                            size={16}
                             color="#fff"
                         />
                     </TouchableOpacity>
@@ -39,13 +39,13 @@ const Header = ({ ...props }) => {
 
                                 <Icon
                                     name="arrow-left"
-                                    size={15}
+                                    size={16}
                                     color="#fff"
                                 />
                                 :
                                 <Icon
                                     name="search"
-                                    size={15}
+                                    size={16}
                                     color="#fff"
                                 />
                         }

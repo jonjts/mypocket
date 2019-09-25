@@ -56,7 +56,8 @@ const profileNavigation = createStackNavigator({
   EditProfile: {
     screen: EditProfile,
     navigationOptions: () => ({
-      header: null
+      header: null,
+      tabBarVisible: false
     }),
   },
   EditPassword: {
@@ -72,7 +73,6 @@ const profileNavigation = createStackNavigator({
     transitionConfig: () => fadeIn(500),
   },
 );
-
 
 const TabBarComponent = props => <BottomTabBar {...props} />;
 

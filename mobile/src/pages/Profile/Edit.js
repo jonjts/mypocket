@@ -121,7 +121,7 @@ const Edit = ({ navigation, updateUser }) => {
 
 
     return (
-        <View style={{ display: 'flex', flex: 1, backgroundColor: '#F3F3F3' }}>
+        <View style={{ display: 'flex', flex: 1, backgroundColor: '#F3F3F3', }}>
             <Progress isVisible={showProgress} />
             <AlertModal isVisible={showAlert} text={alertText} onComfirm={() => setShowAlert(false)} />
             <Header
@@ -138,25 +138,26 @@ const Edit = ({ navigation, updateUser }) => {
                 >
                     Editar Perfil
                 </Text>
-                <Card style={{ flex: 1, marginTop: 50, alignSelf: "center", paddingLeft: 0, paddingRight: 0, }}>
-                    <View
-                        style={[utils.styles.avatar,
-                        { alignSelf: 'center', marginTop: -50 }]}
-                    >
-                        <Icon
-                            name="user"
-                            size={24}
-                            color="#fff"
-                        />
-                    </View>
-                    <Text style={styles.email}>
-                        {email}
-                    </Text>
-                    <ScrollView
-                        keyboardShouldPersistTaps="always"
-                        showsVerticalScrollIndicator={false}
-                        //contentContainerStyle={{ flex: 1, justifyContent: 'space-between', }}
-                    >
+                <ScrollView
+                    keyboardShouldPersistTaps="always"
+                    showsVerticalScrollIndicator={false}
+                >
+                    <Card 
+                        style={{ flex: 1, marginTop: 50, alignSelf: "center", paddingLeft: 0, paddingRight: 0, }}>
+                        <View
+                            style={[utils.styles.avatar,
+                            { alignSelf: 'center', marginTop: -50 }]}
+                        >
+                            <Icon
+                                name="user"
+                                size={24}
+                                color="#fff"
+                            />
+                        </View>
+                        <Text style={styles.email}>
+                            {email}
+                        </Text>
+
                         <KeyboardAvoidingView
                             style={{ flex: 1, alignItems: 'center', flexDirection: 'column' }}
                             behavior='padding'
@@ -204,10 +205,10 @@ const Edit = ({ navigation, updateUser }) => {
                             </View>
                             <View
                                 style={{
-                                    flex: 1,
                                     direction: 'column',
                                     justifyContent: 'center',
-                                    marginBottom: 36
+                                    alignItems: 'center',
+                                    marginBottom: 10
                                 }}
                             >
                                 <View
@@ -233,8 +234,8 @@ const Edit = ({ navigation, updateUser }) => {
                                 </View>
                             </View>
                         </KeyboardAvoidingView>
-                    </ScrollView>
-                </Card>
+                    </Card>
+                </ScrollView>
             </View>
         </View>
     )

@@ -59,7 +59,7 @@ const util = {
             //justifyContent: 'center',
             //paddingRight: 20,
             //paddingLeft: 20,
-            paddingBottom: 20,
+            //paddingBottom: 20,
         },
         headerSubTitle: {
             fontSize: 16,
