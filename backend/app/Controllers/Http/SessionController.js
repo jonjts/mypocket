@@ -20,7 +20,7 @@ class SessionController {
         }
     }
 
-    async delete({ auth, response }) {
+    async delete({ auth, response, }) {
         await auth.logout()
 
         return response.send('Até mais')

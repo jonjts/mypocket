@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
+import { reducer as offline } from "redux-offline-queue";
+import { reducer as users } from "./users";
 
 const reducers = combineReducers({
-  // Remova essa linha depois de adicionar seus ducks
-  example: () => [],
+  offline,
+  users,
 });
 
 export default reducers;

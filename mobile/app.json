@@ -1,4 +1,5 @@
 {
   "name": "mypocket",
-  "displayName": "mypocket"
+  "displayName": "mypocket",
+  "orientation": "portrait"
 }

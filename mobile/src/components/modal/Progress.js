@@ -1,9 +1,10 @@
 import React from 'react';
 var styles = require('./styles');
-import { View, } from 'react-native';
+import {
+    View,
+    ActivityIndicator
+} from 'react-native';
 import Modal from "react-native-modal";
-
-import * as Progress from 'react-native-progress';
 
 const AlertModal = ({ forwardedRef, ...rest }) => (
     <View >
@@ -20,10 +21,7 @@ const AlertModal = ({ forwardedRef, ...rest }) => (
             backdropColor="#6E8D92"
             backdropOpacity={0.4}
         >
-            <Progress.CircleSnail
-                duration={400}
-                color={['#18B4CE', '#5CD6B1']}
-                indeterminate={true} />
+            <ActivityIndicator size="large" color="#18B4CE" />
         </Modal>
     </View>
 );

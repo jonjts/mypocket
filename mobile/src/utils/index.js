@@ -1,5 +1,9 @@
 import getRealm from '../services/realm';
 import AsyncStorage from '@react-native-community/async-storage'
+import { Dimensions, StyleSheet } from 'react-native';
+
+const maxHeaderHeight = Dimensions.get('window').height * 0.30;
+const defaultPaddingHeader = - maxHeaderHeight * 0.65
 
 const util = {
     saveUser: async (data) => {
@@ -8,10 +12,6 @@ const util = {
         console.log(data.user)
 
         realm.write(() => {
-            //Limpa o banco
-            let users = realm.objects('User')
-            realm.delete(users)
-
             realm.create('User', data.user);
         });
 
@@ -24,7 +24,7 @@ const util = {
         const token = await AsyncStorage.getItem("@token")
         const userId = await AsyncStorage.getItem("@user-id")
 
-        if(!token && !userId) {
+        if (!token && !userId) {
             // Caso nao exits as crendenciais...
             return null
         }
@@ -34,9 +34,43 @@ const util = {
             user_id: userId
         }
     },
-    logout: async () =>{
+    logout: async () => {
         await AsyncStorage.clear()
-    }
+    },
+    headerHeight: () => {
+        return maxHeaderHeight
+    },
+    defaultPaddingHeader: () => {
+        return defaultPaddingHeader
+    },
+    styles: StyleSheet.create({
+        mainContainer: {
+            marginTop: defaultPaddingHeader,
+            flex: 1, display: 'flex',
+            //justifyContent: 'center',
+            //paddingRight: 20,
+            //paddingLeft: 20,
+            paddingBottom: 20,
+        },
+        headerSubTitle: {
+            fontSize: 16,
+            alignSelf: 'center',
+            color: '#fff',
+            paddingBottom: 10
+        },
+        avatar: {
+            backgroundColor: '#3AB9CE',
+            borderColor: '#fff',
+            borderWidth: 1,
+            borderEndColor: '#3AB9CE',
+            borderRadius: 100,
+            height: 80,
+            width: 80,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+        }
+    })
 
 }
 

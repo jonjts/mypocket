@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 var styles = require('./styles');
 import getRealm from '../../services/realm';
 import utils from '../../utils'
+import Header from '../../components/Header'
 
 import {
   StatusBar,
@@ -18,7 +19,9 @@ export default function Dashboard({ navigation }) {
 
   return (
     <SafeAreaView style={[styles.container]}>
-      <StatusBar backgroundColor="#3AB9CE" barStyle="light-content" />
+      <Header >
+        
+      </Header>
       <TouchableOpacity
         onPress={() => utils.logout()}
       >

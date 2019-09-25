@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import TextField from './TextField';
+import Icon from 'react-native-vector-icons/Feather';
 import {
     Platform,
     StyleSheet,
@@ -31,8 +32,10 @@ const PasswordTextField = props => {
                     secureTextEntry={hidePassword}
                     style={styles.textBox} />
                 <TouchableOpacity activeOpacity={0.8} style={styles.visibilityBtn} onPress={this.managePasswordVisibility}>
-                    <Image source={(hidePassword) ? require('../assets/images/eye-off.png') : require('../assets/images/eye-on.png')}
-                        style={styles.btnImage} />
+                    <Icon 
+                    name={ hidePassword ? 'eye-off' : 'eye'} 
+                    size={16}
+                    color={ props.error ? '#FC451D' : '#BDBDBD'} />
                 </TouchableOpacity>
             </View>
         </View>

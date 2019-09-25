@@ -9,7 +9,7 @@ const GradientButton = ({ forwardedRef, ...rest }) => {
         <TouchableOpacity
             {...rest}
             ref={forwardedRef}
-            style={styles.buttonEntar}
+            style={[styles.buttonEntar, rest.style]}
             activeOpacity={0.5}
         >
             <LinearGradient start={{ x: 1, y: 0 }} end={{ x: 0, y: 1 }}

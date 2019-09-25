@@ -4,6 +4,7 @@ import { View, Image, Text, Button } from 'react-native';
 import GradientButton from '../buttons/GradientButton'
 import Modal from "react-native-modal";
 import iconAlert from '../../assets/images/alert-circle.png';
+import Icon from 'react-native-vector-icons/Feather';
 
 const AlertModal = ({ forwardedRef, ...rest }) => {
 
@@ -24,9 +25,12 @@ const AlertModal = ({ forwardedRef, ...rest }) => {
             >
                 <View style={styles.content}>
                     <View>
-                        <Image
-                            style={{ width: 35, height: 35, alignSelf: 'center', justifyContent: 'center', alignContent: 'center' }}
-                            source={iconAlert} />
+                        <Icon
+                            style={{ alignSelf: 'center', justifyContent: 'center', alignContent: 'center' }}
+                            name="alert-circle"
+                            size={35}
+                            color="#105762"
+                        />
                         <Text style={styles.contentTitle}>{rest.title ? rest.title : 'Atenção'}</Text>
                     </View>
                     <Text style={[styles.contentTitle, styles.contentMessage]}>{rest.text}</Text>

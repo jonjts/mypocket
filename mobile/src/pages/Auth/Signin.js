@@ -120,7 +120,7 @@ export default function Signin({ navigation }) {
                             <View style={{ flexDirection: 'column', justifyContent: 'flex-start', paddingTop: 4}}>
                                 <TextField
                                     label="Email"
-                                    placeholder="Email..."
+                                    placeholder="Seu email..."
                                     value={email}
                                     error={errors.email}
                                     onChangeText={setEmail}
@@ -134,7 +134,7 @@ export default function Signin({ navigation }) {
                                 <PasswordTextField
                                     error={errors.password}
                                     label="Senha"
-                                    placeholder="Senha..."
+                                    placeholder="Sua senha..."
                                     value={password}
                                     onChangeText={setPassword}
                                     forwardedRef={(input) => { this.secondTextInput = input; }}

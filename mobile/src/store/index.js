@@ -1,25 +1,31 @@
-import { createStore, compose, applyMiddleware } from 'redux';
+import { createStore, compose,applyMiddleware } from 'redux';
+import {
+  offlineMiddleware,
+  suspendSaga,
+  consumeActionMiddleware
+} from "redux-offline-queue";
 import createSagaMiddleware from 'redux-saga';
+import Reactotron from '../config/reactotron'
 
 import reducers from './ducks';
 import sagas from './sagas';
 
 const middlewares = [];
 
-const sagaMonitor = __DEV__ ? console.tron.createSagaMonitor() : null;
+const sagaMiddleware = createSagaMiddleware();
 
-const sagaMiddleware = createSagaMiddleware({ sagaMonitor });
+middlewares.push(offlineMiddleware());
+middlewares.push(suspendSaga(sagaMiddleware));
+middlewares.push(consumeActionMiddleware());
 
-middlewares.push(sagaMiddleware);
+const composer = __DEV__ ? compose(applyMiddleware(...middlewares),console.tron.createEnhancer(),) : compose(applyMiddleware(...middlewares));
 
-const composer = __DEV__
-  ? compose(
-    applyMiddleware(...middlewares),
-    console.tron.createEnhancer(),
-  )
-  : compose(applyMiddleware(...middlewares));
+//const createAppropriateStore = __DEV__ ? console.tron.createStore : createStore;
 
 const store = createStore(reducers, composer);
+
+//const store = createStore(reducers, compose(...middleware, Reactotron.createEnhancer()))
+
 
 sagaMiddleware.run(sagas);
 

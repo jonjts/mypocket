@@ -121,8 +121,9 @@ export default function SignUp({ navigation }) {
             await util.saveUser(data)
             loged()
         } catch (error) {
+            console.log(error.response)
             if (!error.status) {
-                setAlertText('Não foi possível acessar o servidor')
+                setAlertText('Não foi possível finalizar operação')
                 setShowAlert(true)
             } else {
                 setErrorMensage(error.response.data)
@@ -179,6 +180,7 @@ export default function SignUp({ navigation }) {
                                 <>
                                     <View style={{ flexDirection: 'column', justifyContent: 'flex-start', paddingBottom: 10 }}>
                                         <TextField
+                                            autoCapitalize="words"
                                             label="Nome"
                                             forwardedRef={(input) => { this.nomeTextInput = input; }}
                                             placeholder='Podemos te chamar de...'

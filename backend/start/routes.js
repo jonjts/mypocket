@@ -32,5 +32,7 @@ Route.group(() => {
 Route.group(() => {
 
   Route.delete('sessions', 'SessionController.delete')
+  //User
+  Route.put('users/:id', 'UserController.update')
 
 }).prefix('api').middleware('auth')

@@ -1,5 +1,14 @@
-import { all } from 'redux-saga/effects';
+import { all, spawn, takeEvery } from "redux-saga/effects";
+
+import { UsersTypes } from "../ducks/users";
+import { update } from "./users";
+
+import { startWatchingNetworkConnectivity } from "./offline";
 
 export default function* rootSaga() {
-  yield all([]);
+  yield all([
+    spawn(startWatchingNetworkConnectivity),
+
+    takeEvery(UsersTypes.UPDATE_USER, update)
+  ]);
 }
