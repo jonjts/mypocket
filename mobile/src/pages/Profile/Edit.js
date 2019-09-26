@@ -23,6 +23,7 @@ import { connect } from "react-redux";
 import UsersActions from "../../store/ducks/users";
 
 import {
+    SafeAreaView,
     ScrollView,
     View,
     KeyboardAvoidingView,
@@ -121,7 +122,7 @@ const Edit = ({ navigation, updateUser }) => {
 
 
     return (
-        <View style={{ display: 'flex', flex: 1, backgroundColor: '#F3F3F3', }}>
+        <SafeAreaView style={{ display: 'flex', flex: 1, backgroundColor: '#F3F3F3', }}>
             <Progress isVisible={showProgress} />
             <AlertModal isVisible={showAlert} text={alertText} onComfirm={() => setShowAlert(false)} />
             <Header
@@ -142,8 +143,11 @@ const Edit = ({ navigation, updateUser }) => {
                     keyboardShouldPersistTaps="always"
                     showsVerticalScrollIndicator={false}
                 >
-                    <Card 
-                        style={{ flex: 1, marginTop: 50, alignSelf: "center", paddingLeft: 0, paddingRight: 0, }}>
+                    <Card
+                        style={{
+                            flex: 1, marginTop: 50, alignSelf: "center",
+                            paddingLeft: 0, paddingRight: 0, paddingBottom: 30, marginBottom: 10
+                        }}>
                         <View
                             style={[utils.styles.avatar,
                             { alignSelf: 'center', marginTop: -50 }]}
@@ -237,7 +241,7 @@ const Edit = ({ navigation, updateUser }) => {
                     </Card>
                 </ScrollView>
             </View>
-        </View>
+        </SafeAreaView>
     )
 }
 

@@ -23,12 +23,12 @@ const Header = ({ ...props }) => {
                     >
                         <Icon
                             name="more-vertical"
-                            size={24}
+                            size={18}
                             color="#fff"
                         />
                     </TouchableOpacity>
                     <Text style={styles.appName}>
-                        My Pocket
+                        MyPocket
                     </Text>
                     <TouchableOpacity
                         style={styles.mainHeaderRight}
@@ -39,13 +39,13 @@ const Header = ({ ...props }) => {
 
                                 <Icon
                                     name="arrow-left"
-                                    size={24}
+                                    size={18}
                                     color="#fff"
                                 />
                                 :
                                 <Icon
                                     name="search"
-                                    size={24}
+                                    size={18}
                                     color="#fff"
                                 />
                         }

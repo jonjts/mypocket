@@ -5,7 +5,7 @@ import {
   consumeActionMiddleware
 } from "redux-offline-queue";
 import createSagaMiddleware from 'redux-saga';
-import Reactotron from '../config/reactotron'
+import '../config/reactotron'
 
 import reducers from './ducks';
 import sagas from './sagas';
