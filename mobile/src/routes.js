@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs';
-import { zoomIn, fadeIn } from 'react-navigation-transitions';
+import { zoomIn, fadeIn, fromRight } from 'react-navigation-transitions';
 import Indicator from '~/components/tabs/Indicator'
 import AddButton from '~/components/tabs/AddButton'
 
@@ -18,6 +18,8 @@ import Dashboard from '~/pages/Dashboard'
 import Profile from '~/pages/Profile'
 import EditProfile from '~/pages/Profile/Edit'
 import EditPassword from '~/pages/Profile/EditPassword'
+//info
+import Info from '~/pages/Info'
 
 const authNavigation = createStackNavigator({
   Signin: {
@@ -76,7 +78,7 @@ const profileNavigation = createStackNavigator({
 
 const TabBarComponent = props => <BottomTabBar {...props} />;
 
-const MainNavigation = createBottomTabNavigator({
+const TabNavigation = createBottomTabNavigator({
   Home: {
     screen: Dashboard,
     navigationOptions: () => ({
@@ -159,6 +161,28 @@ const MainNavigation = createBottomTabNavigator({
       style={{ borderTopColor: '#FFF', height: tabBarHeight }} />
   ),
 });
+
+const MainNavigation = createStackNavigator({
+  Tab: {
+    screen: TabNavigation,
+    navigationOptions: () => ({
+      headerTransparent: true,
+    }),
+  },
+  Info: {
+    screen: Info,
+    navigationOptions: () => ({
+      headerTransparent: true,
+      headerLeft: null
+    }),
+  },
+},
+  {
+    initialRouteName: 'Tab',
+    transitionConfig: () => fromRight(500),
+  },
+);
+
 
 const InitialNavigator = createSwitchNavigator({
   Splash: SplashScreen,

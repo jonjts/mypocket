@@ -57,8 +57,8 @@ const util = {
             marginTop: defaultPaddingHeader,
             flex: 1, display: 'flex',
             //justifyContent: 'center',
-            //paddingRight: 20,
-            //paddingLeft: 20,
+            paddingRight: 21,
+            paddingLeft: 21,
             //paddingBottom: 20,
         },
         headerSubTitle: {
@@ -66,7 +66,7 @@ const util = {
             alignSelf: 'center',
             color: '#fff',
             paddingBottom: 10
-        },
+        },        
         avatar: {
             backgroundColor: '#3AB9CE',
             borderColor: '#fff',
@@ -78,6 +78,10 @@ const util = {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+        },
+        simpleLabel:{
+            color: '#BDBDBD',
+            fontSize: 14
         }
     })
 

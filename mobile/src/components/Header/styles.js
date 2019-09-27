@@ -22,7 +22,7 @@ module.exports = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingTop: 18,
-        paddingBottom: 15
+        paddingBottom: 14,
     },
     mainHeaderRight:{
         

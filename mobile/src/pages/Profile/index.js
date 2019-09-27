@@ -39,7 +39,7 @@ const Profile = ({ navigation, updateUserSuccess }) => {
     }
 
     function handleEditBasic() {
-        navigation.navigate('EditProfile')
+        navigation.navigate('EditProfile', { user })
     }
 
     function handleEditPassword() {
@@ -72,7 +72,7 @@ const Profile = ({ navigation, updateUserSuccess }) => {
                 backAction={() => setShowLogout(false)}
             >
 
-                <Text style={[styles.email, {fontSize: 16}]}>
+                <Text style={[styles.email, { fontSize: 16 }]}>
                     Deseja sair?
                 </Text>
 
