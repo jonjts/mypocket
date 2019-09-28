@@ -26,6 +26,9 @@ Route.group(() => {
   //Check User email
   Route.get('check-user-email/:email', 'ChekUserEmailController.show')
 
+  //Categorias
+  Route.get('categorias', 'CategoriaController.get')
+
 }).prefix('api')
 
 //auth...

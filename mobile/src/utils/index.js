@@ -13,7 +13,8 @@ const util = {
 
         realm.write(() => {
             const user = realm.objects('User').filtered(` _id = '${data.user._id}'`);
-            if (!user) {
+            console.log(user)
+            if (user.length == 0) {
                 realm.create('User', data.user);
             }
         });
@@ -22,6 +23,20 @@ const util = {
         await AsyncStorage.setItem('@user-id', data.user._id)
 
         return data;
+    },
+    saveCategorias: async (data) => {
+        const realm = await getRealm();
+        
+        console.log(data)
+
+        realm.write(() => {
+            const categorias = data.filter((item) => {
+                const categoria = realm.objects('Categoria').filtered(` _id = '${item._id}'`);
+                return categoria.length == 0
+
+            })
+            realm.create('Categoria', categorias)
+        });
     },
     credentials: async () => {
         const token = await AsyncStorage.getItem("@token")
@@ -66,7 +81,7 @@ const util = {
             alignSelf: 'center',
             color: '#fff',
             paddingBottom: 10
-        },        
+        },
         avatar: {
             backgroundColor: '#3AB9CE',
             borderColor: '#fff',
@@ -79,9 +94,12 @@ const util = {
             justifyContent: 'center',
             alignItems: 'center',
         },
-        simpleLabel:{
+        simpleLabel: {
             color: '#BDBDBD',
             fontSize: 14
+        },
+        mainLabelColor: {
+            color: '#004C58'
         }
     })
 

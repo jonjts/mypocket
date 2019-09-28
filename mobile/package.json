@@ -33,6 +33,7 @@
     "react-navigation-stack": "^1.5.3",
     "react-navigation-tabs": "^2.5.4",
     "react-navigation-transitions": "^1.0.12",
+    "react-number-format": "^4.2.0",
     "react-redux": "^7.1.1",
     "reactotron-react-native": "^3.6.5",
     "reactotron-redux": "^3.1.1",

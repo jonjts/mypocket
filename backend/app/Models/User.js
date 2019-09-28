@@ -1,7 +1,6 @@
 'use strict'
 
 const BaseModel = use('MongooseModel')
-const Hash = use('Hash')
 const { ObjectId } = use('mongoose').Schema.Types
 
 /**

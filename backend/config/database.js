@@ -28,7 +28,7 @@ module.exports = {
       pass: Env.get('DB_PASSWORD', ''),
       database: Env.get('DB_DATABASE', 'mypocket'),
       options: {
-        // All options can be found at http://mongoosejs.com/docs/connections.html
+        useUnifiedTopology: true
       },
       debug: false
     }

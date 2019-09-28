@@ -3,6 +3,10 @@ import LinearGradient from 'react-native-linear-gradient';
 import logo from '../../assets/images/logo.png'
 import utils from '../../utils'
 
+import { useDispatch } from 'react-redux'
+
+import { CategoriasTypes } from '~/store/ducks/categorias'
+
 import {
     StatusBar,
     SafeAreaView,
@@ -18,8 +22,12 @@ export default function SplashScreen({ navigation }) {
         goToAuth()
     }, [])
 
+    const dispacth = useDispatch()
+
     async function goToAuth() {
         await this.performTimeConsumingTask();
+
+        await dispacth({ type: CategoriasTypes.UPDATE_CATEGORIAS })
 
         const credentials = await util.credentials()
 

@@ -20,6 +20,8 @@ import EditProfile from '~/pages/Profile/Edit'
 import EditPassword from '~/pages/Profile/EditPassword'
 //info
 import Info from '~/pages/Info'
+//Item
+import Item from '~/pages/Item'
 
 const authNavigation = createStackNavigator({
   Signin: {
@@ -94,7 +96,7 @@ const TabNavigation = createBottomTabNavigator({
     })
   },
   Itens: {
-    screen: Dashboard,
+    screen: Item,
     navigationOptions: () => ({
       tabBarLabel: ({ focused }) => (focused ? <Indicator /> : null),
       tabBarIcon: ({ tintColor }) => (
