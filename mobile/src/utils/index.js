@@ -26,17 +26,37 @@ const util = {
     },
     saveCategorias: async (data) => {
         const realm = await getRealm();
-        
-        console.log(data)
 
-        realm.write(() => {
-            const categorias = data.filter((item) => {
-                const categoria = realm.objects('Categoria').filtered(` _id = '${item._id}'`);
-                return categoria.length == 0
+        for (item of data) {
 
-            })
-            realm.create('Categoria', categorias)
-        });
+            realm.write(() => {
+                let categoria = realm.objects('Categoria').filtered(` _id = '${item._id}'`);
+                if (categoria.length == 0) {
+                    realm.create('Categoria', item)
+                } else {
+                    categoria[0].nome = item.nome
+                    categoria[0].alias = item.alias
+                    categoria[0].active = item.active
+                }
+            });
+        }
+    },
+    saveTipos: async (data) => {
+        const realm = await getRealm();
+
+        for (item of data) {
+
+            realm.write(() => {
+                let tipo = realm.objects('Tipo').filtered(` _id = '${item._id}'`);
+                if (tipo.length == 0) {
+                    realm.create('Tipo', item)
+                } else {
+                    tipo[0].nome = item.nome
+                    tipo[0].alias = item.alias
+                    tipo[0].active = item.active
+                }
+            });
+        }
     },
     credentials: async () => {
         const token = await AsyncStorage.getItem("@token")

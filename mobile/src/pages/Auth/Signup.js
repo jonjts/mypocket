@@ -13,7 +13,7 @@ import AlertModal from '../../components/modal/AlertModal';
 import moment from "moment";
 import util from "../../utils";
 
-import validation from '../../validation/validation'
+import validation from '../../validation'
 import rules from './rules'
 
 import {

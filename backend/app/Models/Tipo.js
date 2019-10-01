@@ -4,24 +4,17 @@ const BaseModel = use('MongooseModel')
 const { ObjectId } = use('mongoose').Schema.Types
 
 /**
- * @class Categoria
+ * @class Tipo
  */
-class Categoria extends BaseModel {
+class Tipo extends BaseModel {
   /**
    * Exclude created_at and updated_at from the model
    */
   static get timestamps() {
     return false
   }
-  static boot({ schema }) {
-    // Hooks:
-    // this.addHook('preSave', () => {})
-    // this.addHook('preSave', 'CategoriaHook.method')
-    // Indexes:
-    // this.index({}, {background: true})
-  }
   /**
-   * Categoria's schema
+   * Tipo's schema
    */
   static get schema() {
     return {
@@ -34,4 +27,4 @@ class Categoria extends BaseModel {
   }
 }
 
-module.exports = Categoria.buildModel('Categoria')
+module.exports = Tipo.buildModel('Tipo')

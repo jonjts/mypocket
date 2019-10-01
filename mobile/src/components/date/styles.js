@@ -50,10 +50,37 @@ module.exports = StyleSheet.create({
         marginRight: -30,
         height: 40,
     },
-    iconLeft:{
+    iconLeft: {
         marginLeft: 20,
     },
-    iconRight:{
+    iconRight: {
         marginRight: 20,
-    }
+    },
+    textBoxBtnHolder: {
+        position: 'relative',
+        display: 'flex',
+        alignSelf: 'flex-start',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    visibilityBtn: {
+        flexDirection: 'column',
+        position: 'absolute',
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignContent: 'center',
+        display: 'flex',
+        right: 3,
+        height: 40,
+        width: 35,
+        padding: 5
+    },
+    label: {
+        display: 'flex',
+        alignItems: 'stretch',
+        justifyContent: "space-between",
+        fontSize: 12,
+        color: '#BDBDBD',
+        lineHeight: 28,
+    },
 });

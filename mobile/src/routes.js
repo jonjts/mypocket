@@ -22,6 +22,7 @@ import EditPassword from '~/pages/Profile/EditPassword'
 import Info from '~/pages/Info'
 //Item
 import Item from '~/pages/Item'
+import NewItem from '~/pages/Item/New'
 
 const authNavigation = createStackNavigator({
   Signin: {
@@ -178,6 +179,13 @@ const MainNavigation = createStackNavigator({
       headerLeft: null
     }),
   },
+  NewItem: {
+    screen: NewItem,
+    navigationOptions: () => ({
+      headerTransparent: true,
+      headerLeft: null
+    }),
+  },
 },
   {
     initialRouteName: 'Tab',
@@ -194,6 +202,7 @@ const InitialNavigator = createSwitchNavigator({
   {
     transitionConfig: () => fadeIn(500),
   });
+  
 
 export default createAppContainer(InitialNavigator);
 

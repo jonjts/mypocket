@@ -4,7 +4,9 @@ import { TouchableOpacity, View, Text, Keyboard } from "react-native";
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Feather';
 
-export default function AddButton({ navigation, forwardedRef, ...rest }) {
+import { withNavigation } from 'react-navigation';
+
+const AddButton = ({ navigation, forwardedRef, ...rest }) => {
 
     const [show, setShow] = useState(true)
 
@@ -25,6 +27,7 @@ export default function AddButton({ navigation, forwardedRef, ...rest }) {
                     {...rest}
                     style={[styles.buttonAdd, rest.style]}
                     activeOpacity={0.5}
+                    onPress={() => navigation.navigate('NewItem')}
                 >
                     <LinearGradient start={{ x: 1, y: 0 }} end={{ x: 0, y: 1 }}
                         colors={['#7AE3DD', '#25ABC9']}
@@ -39,3 +42,5 @@ export default function AddButton({ navigation, forwardedRef, ...rest }) {
 
     )
 }
+
+export default withNavigation(AddButton);

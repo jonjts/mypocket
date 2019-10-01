@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import validation from '../../validation/validation'
+import validation from '../../validation'
 import rules from '../Auth/rules'
 import moment from "moment";
 import PasswordTextField from '~/components/PasswordTextField'

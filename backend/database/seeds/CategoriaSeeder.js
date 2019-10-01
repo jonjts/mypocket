@@ -13,10 +13,14 @@
 /** @type {import('@adonisjs/lucid/src/Factory')} */
 const Factory = use('Factory')
 const Categoria = use('App/Models/Categoria')
+const Tipo = use('App/Models/Tipo')
 
 class CategoriaSeeder {
+
   async run() {
-    const data = [
+
+    //Cria as categorias
+    let data = [
       {
         nome: 'Assinaturas',
         alias: 'assianturas'
@@ -63,7 +67,17 @@ class CategoriaSeeder {
       }
     ]
 
-    Categoria.create(data)
+    await Categoria.create(data)
+
+    data = [{
+      nome: 'Receita',
+      alias: 'receita'
+    },
+    {
+      nome: 'Despesa',
+      alias: 'despesa'
+    }]
+    await Tipo.create(data)
   }
 }
 

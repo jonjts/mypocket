@@ -9,7 +9,7 @@ import AlertModal from '../../components/modal/AlertModal';
 import Progress from '../../components/modal/Progress';
 import util from "../../utils";
 
-import validation from '../../validation/validation'
+import validation from '../../validation'
 import rules from './rules'
 
 import {

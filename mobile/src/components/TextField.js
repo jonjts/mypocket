@@ -31,7 +31,8 @@ const styles = {
     input: {
         color: "#105762",
         fontSize: 15,
-        height: 48,
+        minHeight: 48,
+        flex: 1,
         width: 271,
         backgroundColor: '#fff',
         borderRadius: 6,

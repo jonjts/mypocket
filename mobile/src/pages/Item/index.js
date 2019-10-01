@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 var styles = require('./styles');
 import getRealm from '../../services/realm';
-import utils from '../../utils'
+import { util as utils, colors } from '~/utils'
 import Header from '../../components/Header'
 import SelectMonth from '~/components/date/SelectMonth'
 import Card from '~/components/Card'

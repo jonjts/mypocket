@@ -19,15 +19,14 @@ const Route = use('Route')
 Route.group(() => {
   //User
   Route.post('users', 'UserController.store').validator('User')
-
   //Sessions
   Route.post('sessions', 'SessionController.store').validator('Session')
-
   //Check User email
   Route.get('check-user-email/:email', 'ChekUserEmailController.show')
-
   //Categorias
   Route.get('categorias', 'CategoriaController.get')
+  //Tipos
+  Route.get('tipos', 'TipoController.get')
 
 }).prefix('api')
 
@@ -37,7 +36,6 @@ Route.group(() => {
   Route.delete('sessions', 'SessionController.delete')
   //User
   Route.put('users/:id', 'UserController.update')
-
   //Password
   Route.put('password/', 'PasswordController.update')
 

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import logo from '../../assets/images/logo.png'
-import utils from '../../utils'
 
 import { useDispatch } from 'react-redux'
 
 import { CategoriasTypes } from '~/store/ducks/categorias'
+import { TiposTypes } from '~/store/ducks/tipos'
 
 import {
     StatusBar,
@@ -22,12 +22,13 @@ export default function SplashScreen({ navigation }) {
         goToAuth()
     }, [])
 
-    const dispacth = useDispatch()
+    const dispatch = useDispatch()
 
     async function goToAuth() {
         await this.performTimeConsumingTask();
 
-        await dispacth({ type: CategoriasTypes.UPDATE_CATEGORIAS })
+        dispatch({ type: CategoriasTypes.UPDATE_CATEGORIAS })
+        dispatch({ type: TiposTypes.UPDATE_TIPOS })
 
         const credentials = await util.credentials()
 

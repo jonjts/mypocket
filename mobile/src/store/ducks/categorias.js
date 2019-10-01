@@ -6,7 +6,9 @@ import Immutable from "seamless-immutable";
 
 const { Types, Creators } = createActions({
   updateCategorias: [],
-  updateCategoriasSuccess: ["categorias"]
+  updateCategoriasSuccess: ["categorias"],
+  loadCategorias: [],
+  loadCategoriasSuccess: ['categorias']
 });
 
 markActionsOffline(Creators, ["updateCategorias"]);
@@ -25,6 +27,11 @@ export const INITIAL_STATE = Immutable({
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.UPDATE_CATEGORIAS]: state => state.merge({ loading: true }),
-  [Types.UPDATE_CATEGORIAS_SUCCESS]: (state, { categorias }) => 
+  [Types.UPDATE_CATEGORIAS_SUCCESS]: (state, { categorias }) => (
     state.update("data", data => [...data, categorias])
+  ),
+  [Types.LOAD_CATEGORIAS]: state => state.merge({ loading: true }),
+  [Types.LOAD_CATEGORIAS_SUCCESS]: (state, { categorias }) =>
+    state.update("data", data => categorias),
+
 });
