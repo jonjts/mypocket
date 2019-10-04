@@ -47,6 +47,7 @@ const styles = {
         width: 271,
         backgroundColor: '#fff',
         borderRadius: 6,
+        color: "#105762"
         /*shadowColor: "#000",
         shadowOffset: {
             width: 7,

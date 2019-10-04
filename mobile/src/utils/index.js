@@ -6,6 +6,13 @@ const maxHeaderHeight = Dimensions.get('window').height * 0.30;
 const defaultPaddingHeader = - maxHeaderHeight * 0.65
 
 const util = {
+    isEmpty: (obj) => {
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key))
+                return false;
+        }
+        return true;
+    },
     saveUser: async (data) => {
         const realm = await getRealm();
 

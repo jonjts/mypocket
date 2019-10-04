@@ -12,6 +12,9 @@ module.exports = StyleSheet.create({
         position: 'absolute',
         marginTop: (maxHeight / 2) - 12
     },
+    input: {
+        color: "#105762"
+    },
     height: {
         height: 92
     },

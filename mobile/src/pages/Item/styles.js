@@ -34,6 +34,9 @@ module.exports = StyleSheet.create({
         fontSize: 12,
         color: '#BDBDBD',
         lineHeight: 28,
+    },
+    inputContainer: {
+        paddingBottom: 8
     }
 
 })

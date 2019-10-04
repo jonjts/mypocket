@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
     View,
     Image,
@@ -15,10 +15,16 @@ import moment from 'moment';
 
 import styles from './styles';
 
-export default function DatePicker({ error, ...props }) {
+export default function DatePicker({ error, onDateChange, ...props }) {
 
     const [date, setDate] = useState(moment().format('DD/MM/YYYY'))
     const [showPicker, setShowPicker] = useState(false)
+
+    useEffect(() => {
+        if (onDateChange) {
+            onDateChange(date)
+        }
+    }, [date])
 
     return (
         <View>
@@ -35,6 +41,7 @@ export default function DatePicker({ error, ...props }) {
                         error={error}
                         type={'datetime'}
                         style={[styles.input, props.style]}
+                        placeholderTextColor={error ? "#FC451D" : "#a7a7a7"}
                         placeholder='Sua data de nascimento...'
                         returnKeyType={"next"}
                         autoCorrect={false}
@@ -63,7 +70,7 @@ export default function DatePicker({ error, ...props }) {
                         },
                         ]}
                     >
-                       
+
                     </View>
                     :
                     null
