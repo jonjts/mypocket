@@ -28,7 +28,8 @@ module.exports = {
       pass: Env.get('DB_PASSWORD', ''),
       database: Env.get('DB_DATABASE', 'mypocket'),
       options: {
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        useNewUrlParser: true
       },
       debug: false
     }

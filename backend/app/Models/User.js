@@ -25,6 +25,10 @@ class User extends BaseModel {
       avatar: { type: String, },
       loginSource: { type: String, },
       loginToken: { type: String,  },
+      itens: [{
+        type: ObjectId,
+        ref: 'Item'
+    }],
     }
   }
 
