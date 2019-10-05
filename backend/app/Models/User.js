@@ -20,15 +20,11 @@ class User extends BaseModel {
       uid: { type: ObjectId },
       nome: { type: String, required: true },
       email: { type: String, required: true, unique: true },
-      password: {type: String, required: true},
-      dataNascimento: { type: Date, required: true},
+      password: { type: String, required: true },
+      dataNascimento: { type: Date, required: true },
       avatar: { type: String, },
       loginSource: { type: String, },
-      loginToken: { type: String,  },
-      itens: [{
-        type: ObjectId,
-        ref: 'Item'
-    }],
+      loginToken: { type: String, },
     }
   }
 

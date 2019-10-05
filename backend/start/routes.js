@@ -40,6 +40,7 @@ Route.group(() => {
   Route.put('password/', 'PasswordController.update')
   //Itens
   Route.get('users/:id/itens', 'ItemController.get').middleware('userInParam')
-  Route.post('users/:id/itens', 'ItemController.store').validator('Item').middleware('userInParam')
+  Route.post('users/:id/itens', 'ItemController.store')
+    .validator('Item').middleware('userInParam')
 
 }).prefix('api').middleware('auth')

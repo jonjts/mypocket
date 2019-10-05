@@ -10,13 +10,13 @@ class ItemController {
         const { month, year } = request.get()
         console.log(month, year)
 
-        user = await User.findOne({ "_id": user._id }).populate('itens')
+        const itens = await Item.find({ "userId": user._id })
 
-        return await user.itens
+        return await itens
     }
 
     async store({ auth, request }) {
-        const data = request.only(["_id", "userId"
+        const data = request.only(["_id", "user"
             , "descricao", "data", "valor", "tipo",
             "categoria","created_at"])
         const item = await Item.create(data)
