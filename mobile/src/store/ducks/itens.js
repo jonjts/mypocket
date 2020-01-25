@@ -5,15 +5,15 @@ import Immutable from "seamless-immutable";
 /* Types & Action Creators */
 
 const { Types, Creators } = createActions({
-  storeLocalItem: ["item", "isNew"],
-  storeocalItemSuccess: ["item", "isNew"],
-  storeLocalItemFail: ["message", "isNew"],
-  saveCloudItem: ["item", "isNew"],
-  saveCloudItemSuccess: ["item", "isNew"],
+  saveLocalItem: ["item_data", "isNew"],
+  saveLocalItemSuccess: ["item_data", "isNew"],
+  saveLocalItemFail: ["message", "isNew"],
+  saveCloudItem: ["item_data", "isNew"],
+  saveCloudItemSuccess: ["item_data", "isNew"],
   saveCloudItemFail: ["message", "isNew"]
 });
 
-markActionsOffline(Creators, ["saveCouldItem"]);
+markActionsOffline(Creators, ["saveCloudItem"]);
 
 export const ItensTypes = Types;
 export default Creators;
@@ -29,15 +29,15 @@ export const INITIAL_STATE = Immutable({
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.SAVE_LOCAL_ITEM]: state => state.merge({ loading: true }),
-  [Types.SAVE_LOCAL_ITEM_SUCCESS]: (state, { item, isNew }) => (
-    state.update("data", data => [...data, item, isNew])
+  [Types.SAVE_LOCAL_ITEM_SUCCESS]: (state, { item_data, isNew }) => (
+    {item_data, isNew}
   ),
   [Types.SAVE_LOCAL_ITEM_FAIL]: (state, { message, isNew }) => (
     state.update("data", data => [...data, message, isNew])
   ),
   [Types.SAVE_CLOUD_ITEM]: state => state.merge({ loading: true }),
-  [Types.SAVE_CLAUD_ITEM_SUCCESS]: (state, { item, isNew }) =>
-    state.update("data", data => [...data, item, isNew]),
-  [Types.SAVE_CLAUD_ITEM_FAIL]: (state, { message, isNew }) =>
+  [Types.SAVE_CLOUD_ITEM_SUCCESS]: (state, { item_data, isNew }) =>
+    state.update("data", data => [...data, item_data, isNew]),
+  [Types.SAVE_CLOUD_ITEM_FAIL]: (state, { message, isNew }) =>
     state.update("data", data => [...data, message, isNew]),
 });

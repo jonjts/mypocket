@@ -8,12 +8,12 @@ class User {
     const userId = this.ctx.params.id
     const checkOwnEmail = userId ? `,${userId}` : "";
     return {
-      dataNascimento: [
+      data_nascimento: [
         rule("required"),
         rule('date'),
         rule('dateFormat', 'YYYY-MM-DD'),
       ],
-      email: `required|email|unique:users,email${checkOwnEmail}`,
+      email: `required|email|unique:security.users,email${checkOwnEmail}`,
       password: 'required|min:6',
       nome: 'required',
     }
@@ -26,14 +26,14 @@ class User {
       "email.unique": "Este email já está em uso",
       "password.required": "Você precisa informar sua senha",
       "password.min": "Sua senha precisa de pelo menos dígitos",
-      "dataNascimento.date": "Informe uma data de nascimento válida",
-      "dataNascimento.required": "Informe sua data de nascimento",
-      "dataNascimento.dateFormat": "Informe uma data de nascimento válida"
+      "data_nascimento.date": "Informe uma data de nascimento válida",
+      "data_nascimento.required": "Informe sua data de nascimento",
+      "data_nascimento.dateFormat": "Informe uma data de nascimento válida"
     }
   }
 
   async fails (errorMessages) {
-    return this.ctx.response.status(500).send(errorMessages)
+    return this.ctx.response.status(400).send(errorMessages)
   }
 
 }

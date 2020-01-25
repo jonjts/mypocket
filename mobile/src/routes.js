@@ -35,7 +35,8 @@ const authNavigation = createStackNavigator({
     screen: Signup,
     navigationOptions: () => ({
       headerTransparent: true,
-      headerStyle: { marginTop: 15 }
+      headerStyle: { marginTop: 15 },
+      headerLeft: null
     }),
   }, Wellcome: {
     screen: Wellcome,

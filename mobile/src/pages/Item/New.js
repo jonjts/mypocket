@@ -10,7 +10,7 @@ import Form from './Form'
 
 import styles from './styles';
 
-export default function New({ navigation }) {
+export default function New({ navigation, ...props }) {
     return (
         <>
             <SafeAreaView style={{ display: 'flex', flex: 1, backgroundColor: '#F3F3F3', }}>
@@ -27,7 +27,9 @@ export default function New({ navigation }) {
                         Novo
                     </Text>
                     <Form
+                        {...props}
                         navigation={navigation}
+                        item={{}}
                     />
                 </View>
             </SafeAreaView>

@@ -16,24 +16,7 @@ module.exports = {
   | interacting with SQL databases.
   |
   */
-  connection: Env.get('DB_CONNECTION', 'mongodb'),
-
-  mongodb: {
-    client: 'mongodb',
-    connectionString: Env.get('DB_CONNECTION_STRING', null),
-    connection: {
-      host: Env.get('DB_HOST', 'localhost'),
-      port: Env.get('DB_PORT', 27017),
-      user: Env.get('DB_USER', 'admin'),
-      pass: Env.get('DB_PASSWORD', ''),
-      database: Env.get('DB_DATABASE', 'mypocket'),
-      options: {
-        useUnifiedTopology: true,
-        useNewUrlParser: true
-      },
-      debug: false
-    }
-  },
+  connection: Env.get('DB_CONNECTION', 'pg'),
 
   /*
   |--------------------------------------------------------------------------
@@ -74,7 +57,7 @@ module.exports = {
       password: Env.get('DB_PASSWORD', ''),
       database: Env.get('DB_DATABASE', 'adonis')
     },
-    debug: Env.get('DB_DEBUG', false)
+    debug: Env.get('DB_DEBUG', true)
   },
 
   /*

@@ -1,17 +1,14 @@
 export default class UserSchema {
   static schema = {
     name: 'User',
-    primaryKey: '_id',
+    primaryKey: 'id',
     properties: {
-      _id: { type: 'string', indexed: true },
+      id: { type: 'string', indexed: true },
       nome: { type: 'string', optional: false },
-      dataNascimento: 'date',
+      data_nascimento: 'date',
       email: 'string',
       avatar: { type: 'string', optional: true },
-      loginSource: { type: 'string', optional: true },
-      loginToken: { type: 'string', optional: true },
-      created_at: 'date',
-      updated_at: 'date',
+    
     },
   };
 }

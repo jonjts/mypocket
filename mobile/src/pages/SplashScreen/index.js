@@ -5,7 +5,6 @@ import logo from '../../assets/images/logo.png'
 import { useDispatch } from 'react-redux'
 
 import { CategoriasTypes } from '~/store/ducks/categorias'
-import { TiposTypes } from '~/store/ducks/tipos'
 
 import {
     StatusBar,
@@ -28,7 +27,6 @@ export default function SplashScreen({ navigation }) {
         await this.performTimeConsumingTask();
 
         dispatch({ type: CategoriasTypes.UPDATE_CATEGORIAS })
-        dispatch({ type: TiposTypes.UPDATE_TIPOS })
 
         const credentials = await util.credentials()
 

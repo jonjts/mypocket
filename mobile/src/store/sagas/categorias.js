@@ -14,7 +14,7 @@ export function* update() {
     yield put(CategoriasActions.updateCategoriasSuccess(categorias));
 
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 }
 
@@ -23,11 +23,11 @@ export function* load() {
     const realm = yield getRealm();
     let categorias = []
     realm.write(() => {
-      categorias = realm.objects('Categoria').filtered('active == true');
+      categorias = realm.objects('Categoria').filtered('ativo == true');
     })
     yield put(CategoriasActions.loadCategoriasSuccess(Array.from(categorias)));
 
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 }

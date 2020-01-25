@@ -6,6 +6,7 @@ import Header from '../../components/Header'
 import SelectMonth from '~/components/date/SelectMonth'
 import Card from '~/components/Card'
 import NumberFormat from 'react-number-format';
+import Snackbar from 'react-native-snackbar';
 
 import {
   SafeAreaView,
@@ -17,11 +18,30 @@ import {
   StyleSheet,
 } from 'react-native';
 
+import { useDispatch, useSelector } from 'react-redux'
+import { ItensTypes } from '~/store/ducks/itens'
+
 export default function Itens({ navigation }) {
 
   const [showSelect, setShowSelect] = useState(false)
   const [totalReceitas, setTotalReceitas] = useState(2000.90)
   const [totalDespesas, setTotalDespesas] = useState(1000.00)
+
+  const itemSaved = useSelector(state => state.itens.item_data)
+  const isNew = useSelector(state => state.itens.isNew)
+  const messageFail = useSelector(state => state.itens.message)
+
+  useEffect(() => {
+    if (itemSaved) {
+      const text = isNew ? 'adicionada' : 'alterada'
+      Snackbar.show({
+        title: `${itemSaved.tipo.nome} ${text}`,
+        duration: Snackbar.LENGTH_LONG,
+        backgroundColor: '#2BB0CB',
+        color: '#fff'
+      });
+    }
+  }, [itemSaved])
 
 
   return (

@@ -47,7 +47,8 @@ export default function Wellcome({ navigation }) {
     const realm = await getRealm();
     const credentials = await utils.credentials()
 
-    const user = realm.objects('User').filtered(` _id = '${credentials.user_id}'`)[0];
+    const user = realm.objects('User').filtered(` id = '${credentials.user_id}'`)[0];
+    console.log(user)
     setNome(user.nome)
 
     if (screen) {

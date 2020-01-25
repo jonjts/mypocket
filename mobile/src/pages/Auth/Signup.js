@@ -66,7 +66,7 @@ export default function SignUp({ navigation }) {
                     "nome": nome,
                     "email": email,
                     "password": password,
-                    "dataNascimento": newDataNascimento.format('YYYY-MM-DD')
+                    "data_nascimento": newDataNascimento.format('YYYY-MM-DD')
                 }
                 await createUser(user)
             }
@@ -95,7 +95,7 @@ export default function SignUp({ navigation }) {
     async function isEmailOk(email) {
         setShowProgress(true)
         try {
-            await api.get(`/check-user-email/${email}`)
+            await api.get(`/users/emails/${email}`)
             return true
         } catch (error) {
             if (!error.response) {
@@ -121,7 +121,7 @@ export default function SignUp({ navigation }) {
             await util.saveUser(data)
             loged()
         } catch (error) {
-            console.log(error.response)
+            console.log(error)
             if (!error.status) {
                 setAlertText('Não foi possível finalizar operação')
                 setShowAlert(true)
@@ -166,10 +166,19 @@ export default function SignUp({ navigation }) {
                         behavior='padding'
                         enabled={Platform.OS === 'ios'}>
                         <View style={styles.card}>
-                            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: -50, paddingBottom: 10 }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'center', display: 'flex' }}>
+                                <TouchableOpacity
+                                    onPress={() => navigation.goBack()}
+                                    style={{
+                                        flex: 1
+                                    }}
+                                >
+                                    <Icon name="arrow-left" size={20} color="#105762" />
+                                </TouchableOpacity>
                                 <Image
-                                    style={{ width: 85, height: 85 }}
+                                    style={{ width: 85, height: 85, marginTop: -50, paddingBottom: 10 }}
                                     source={logo} />
+                                <View style={{ flex: 1 }} />
                             </View>
                             <View style={{ flexDirection: 'row', justifyContent: 'center', }}>
                                 <Text style={styles.title}>

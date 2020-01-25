@@ -16,34 +16,33 @@ const util = {
     saveUser: async (data) => {
         const realm = await getRealm();
 
-        console.log(data.user)
-
         realm.write(() => {
-            const user = realm.objects('User').filtered(` _id = '${data.user._id}'`);
-            console.log(user)
+            const user = realm.objects('User').filtered(` id = '${data.user.id}'`);
+            console.log(user.length)
             if (user.length == 0) {
-                realm.create('User', data.user);
+                realm.create('User', data.user, true);
             }
         });
 
         await AsyncStorage.setItem('@token', data.auth.token)
-        await AsyncStorage.setItem('@user-id', data.user._id)
+        await AsyncStorage.setItem('@user-id', data.user.id)
 
         return data;
     },
     saveCategorias: async (data) => {
         const realm = await getRealm();
+        console.log(data)
 
         for (item of data) {
 
             realm.write(() => {
-                let categoria = realm.objects('Categoria').filtered(` _id = '${item._id}'`);
+                let categoria = realm.objects('Categoria').filtered(` id = '${item.id}'`);
                 if (categoria.length == 0) {
-                    realm.create('Categoria', item)
+                    realm.create('Categoria', item, true)
                 } else {
                     categoria[0].nome = item.nome
                     categoria[0].alias = item.alias
-                    categoria[0].active = item.active
+                    categoria[0].ativo = item.ativo
                 }
             });
         }
@@ -54,7 +53,7 @@ const util = {
         for (item of data) {
 
             realm.write(() => {
-                let tipo = realm.objects('Tipo').filtered(` _id = '${item._id}'`);
+                let tipo = realm.objects('Tipo').filtered(` id = '${item.id}'`);
                 if (tipo.length == 0) {
                     realm.create('Tipo', item)
                 } else {
@@ -78,13 +77,31 @@ const util = {
             token: token,
             user_id: userId
         }
+    }, formatNumber: (text) => {
+        if (!text) {
+            return null
+        }
+        text = text.replace('R$', '')
+        text = text.replace('.', '')
+        text = text.replace(',', '.')
+        return parseFloat(text)
+    }, getModel: async (modelName, id) => {
+        const realm = await getRealm();
+        let model = null
+        realm.write(() => {
+            model = realm.objects(modelName).filtered(` id = '${id}'`);
+        });
+        return model.length > 0 ? model[0] : null
+    }, getUserModel: async () => {
+        const credentials = await util.credentials();
+        return await util.getModel('User', credentials.user_id)
     },
     logout: async () => {
         await AsyncStorage.clear()
         const credentials = await util.credentials()
         const realm = await getRealm();
         realm.write(() => {
-            const user = realm.objects('User').filtered(` _id = '${credentials.user_id}'`);
+            const user = realm.objects('User').filtered(` id = '${credentials.user_id}'`);
             realm.delete(user)
         });
     },

@@ -13,7 +13,7 @@ class UserInParam {
     let user = await auth.getUser()
     const userId = params.id
 
-    if (user._id != userId) {
+    if (user.id != userId) {
       let err = new Error('Você não tem permissão')
       err.statusCode = 401;
       throw err;
