@@ -18,7 +18,6 @@ const util = {
 
         realm.write(() => {
             const user = realm.objects('User').filtered(` id = '${data.user.id}'`);
-            console.log(user.length)
             if (user.length == 0) {
                 realm.create('User', data.user, true);
             }
@@ -31,7 +30,6 @@ const util = {
     },
     saveCategorias: async (data) => {
         const realm = await getRealm();
-        console.log(data)
 
         for (item of data) {
 

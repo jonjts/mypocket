@@ -7,7 +7,7 @@ const rules = {
             allowEmpty: false
         },
     },
-    data: {
+    realizado_em: {
         datetime: {
             dateOnly: true,
             message: "Informe uma data válida"

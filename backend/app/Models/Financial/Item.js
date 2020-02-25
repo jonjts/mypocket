@@ -9,8 +9,17 @@ class Item extends Model {
         return 'financial.itens'
     }
 
+    //Retornado dates vazio para formatar created_at e updated_at com timezone
+    static get dates () {
+        return []
+      }
+
     user() {
         return this.belongsTo('App/Models/Security/User')
+    }
+
+    categoria() {
+        return this.belongsTo('App/Models/Common/Categoria')
     }
 }
 

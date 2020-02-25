@@ -24,12 +24,16 @@ export default function New({ navigation, ...props }) {
                     <Text
                         style={[utils.styles.headerSubTitle, { paddingBottom: 23 }]}
                     >
-                        Novo
+                        {
+                            (navigation.state.params && navigation.state.params.item) ?
+                                'Alterar' :
+                                'Novo'
+                        }
                     </Text>
                     <Form
                         {...props}
                         navigation={navigation}
-                        item={{}}
+                        itemId={{}}
                     />
                 </View>
             </SafeAreaView>

@@ -61,9 +61,9 @@ const Edit = ({ navigation, updateUser }) => {
         const realm = await getRealm();
         const credentials = await utils.credentials()
 
-        const user = realm.objects('User').filtered(` _id = '${credentials.user_id}'`)[0];
+        const user = realm.objects('User').filtered(` id = '${credentials.user_id}'`)[0];
         setNome(user.nome)
-        setDataNascimento(formatDate(user.dataNascimento))
+        setDataNascimento(formatDate(user.data_nascimento))
         setEmail(user.email)
     }
 
@@ -98,7 +98,7 @@ const Edit = ({ navigation, updateUser }) => {
             const realm = await getRealm();
 
             realm.write(() => {
-                const u = realm.objects('User').filtered(` _id = '${userId}'`)[0]
+                const u = realm.objects('User').filtered(` id = '${userId}'`)[0]
                 u.nome = user.nome
                 u.dataNascimento = user.dataNascimento
             });

@@ -10,6 +10,8 @@ import { update as updateCategorias } from './categorias'
 import { load as loadCategorias } from './categorias'
 import { saveLocal as saveLocalItem } from './itens'
 import { saveCloud as saveCloudItem } from './itens'
+import { findAll } from './itens'
+import { deleteCloud } from './itens'
 
 import { startWatchingNetworkConnectivity } from "./offline";
 
@@ -23,5 +25,7 @@ export default function* rootSaga() {
     takeEvery(CategoriasTypes.LOAD_CATEGORIAS, loadCategorias),
     takeEvery(ItensTypes.SAVE_LOCAL_ITEM, saveLocalItem),
     takeEvery(ItensTypes.SAVE_CLOUD_ITEM, saveCloudItem),
+    takeEvery(ItensTypes.FIND_ALL, findAll),
+    takeEvery(ItensTypes.DELETE_CLOUD_ITEM, deleteCloud),
   ]);
 }

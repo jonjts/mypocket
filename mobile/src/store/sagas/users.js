@@ -10,6 +10,6 @@ export function* update({ user_data }) {
     yield put(UsersActions.updateUserSuccess(response.data));
 
   } catch (error) {
-    console.log(error.response)
+    console.warn(error.response)
   }
 }

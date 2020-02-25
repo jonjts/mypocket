@@ -2,21 +2,22 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   ScrollView,
-  SafeAreaView,
   KeyboardAvoidingView,
   Picker,
-  TouchableOpacity,
-  Text
 } from 'react-native';
+
+import theme from '~/theme/light'
+
+import Snackbar from 'react-native-snackbar';
+import Footer from '~/components/Form/Footer'
+import Progress from '~/components/modal/Progress'
 import Card from '~/components/Card'
 import TextField from '../../components/TextField';
 import MaskTextField from '~/components/MaskTextField'
 import DatePicker from '~/components/date/DatePicker'
 import SelectField from '~/components/SelectField'
-import RadioForm from 'react-native-simple-radio-button';
-import GradientButton from '~/components/buttons/GradientButton'
-import Snackbar from 'react-native-snackbar';
-import moment from "moment";
+import RadioButton from '~/components/buttons/RadioButton'
+import moment from "~/utils/moments";
 
 import validation from '~/validation'
 import rules from './rules'
@@ -28,18 +29,18 @@ import utils from '~/utils'
 import styles from './styles';
 
 import { useDispatch, useSelector } from 'react-redux'
-import { CategoriasTypes } from '~/store/ducks/categorias'
 import { ItensTypes } from '~/store/ducks/itens'
-import { compose } from 'redux';
 
-const Form = ({ navigation, item = {}, ...props }) => {
+const Form = ({ navigation, ...props }) => {
 
+  const [item, setItem] = useState({})
   const [data, setData] = useState(new Date())
   const [valor, setValor] = useState(null)
   const [tipo, setTipo] = useState('D')
   const [categoria, setCategoria] = useState(null)
   const [descricao, setDescricao] = useState(null)
   const [errors, setErrors] = useState({})
+  const [showProgress, setShowProgress] = useState(false)
 
   const scroll = useRef()
 
@@ -47,7 +48,6 @@ const Form = ({ navigation, item = {}, ...props }) => {
   const [categorias, setCategorias] = useState([])
   const [tipos] = useState([{ id: 'D', nome: 'Despesa' }, { id: 'R', nome: 'Receita' }])
   //Retorno do salvamento do item
-  const itemSaved = useSelector(state => state.itens.item_data)
   const messageFail = useSelector(state => state.itens.message)
 
   const dispacth = useDispatch()
@@ -57,15 +57,25 @@ const Form = ({ navigation, item = {}, ...props }) => {
   }, [])
 
   useEffect(() => {
-    if (itemSaved) {
-      console.log(itemSaved)
-      navigation.goBack()
+    if (item.id) {
+      const realizadoEm = moment(item.realizado_em, 'DD/MM/YYYY')
+      console.log('realizado', realizadoEm)
+      setData(realizadoEm.format('DD/MM/YYYY'))
+      setValor(item.valor)
+      setTipo(item.tipo)
+      setCategoria(item.categoria.id)
+      setDescricao(item.descricao)
     }
-  }, [itemSaved])
+  }, [item])
+
+  useEffect(() => {
+    if (navigation.state.params && navigation.state.params.item) {
+      setItem(navigation.state.params.item)
+    }
+  }, [navigation])
 
   useEffect(() => {
     if (messageFail) {
-      console.log(messageFail)
       setShowAlert(true)
       setAlertText("Não foi possível salvar item")
     }
@@ -85,6 +95,7 @@ const Form = ({ navigation, item = {}, ...props }) => {
 
 
   async function handleSalvar() {
+    setShowProgress(true)
     try {
       const newData = moment(data, 'DD/MM/YYYY')
       const user = await utils.getUserModel()
@@ -92,26 +103,30 @@ const Form = ({ navigation, item = {}, ...props }) => {
       const newItem = {
         id: item.id ? item.id : uuid.v1(),
         user,
-        data: data,
+        realizado_em: data,
         valor,
         tipo,
         categoria: categoriaModal,
-        descricao: descricao
+        descricao: descricao,
+        updated_at: new Date()
       }
+      console.log(newItem)
       const result = await validation(newItem, rules)
       setErrors(result ? result : {})
       scrolling(result)
-      newItem['data'] = newData.format('YYYY-MM-DD')
+      newItem['realizado_em'] = newData.format('YYYY-MM-DD')
+      console.log(result)
       if (!result) {
         saveItem(newItem)
       }
     } catch (error) {
-      console.error(error)
+      console.log(error)
     }
+    setShowProgress(false)
   }
 
   function isNew() {
-    return item ? false : true
+    return item.id ? false : true
   }
 
 
@@ -119,26 +134,61 @@ const Form = ({ navigation, item = {}, ...props }) => {
     try {
       const realm = await getRealm();
       realm.write(() => {
-        realm.create('Item', item, true)
+        if (isNew()) {
+          realm.create('Item', item, true)
+        } else {
+          let model = realm.objects('Item').filtered(` id = '${item.id}'`)[0];
+          model.descricao = item.descricao
+          model.categoria = item.categoria
+          model.valor = item.valor
+          model.realizado_em = item.realizado_em
+          model.tipo = item.tipo
+        }
       });
 
       const apiItem = {
         ...item,
-        categoria_id: item.id,
+        categoria_id: item.categoria.id,
       }
+      //DIspara á ação para dizer que o item foi salvo localmente
+      dispacth({
+        type: ItensTypes.SAVE_LOCAL_ITEM_SUCCESS,
+      })
+      //Dispara a ação para saçvar na nuvem
       dispacth({
         type: ItensTypes.SAVE_CLOUD_ITEM,
         item_data: apiItem,
         isNew: isNew()
       })
-      
+
+      showSnack({ msg: `${item.tipo == 'R' ? 'Receita' : 'Despesa'} adicionada`, })
+
+      navigation.goBack()
     } catch (error) {
       console.error(error)
-      setShowAlert(true)
-      setAlertText("Não foi possível salvar item")
+      showSnack({
+        msg: 'Não foi possível salvar item',
+        error: true,
+        duration: Snackbar.LENGTH_INDEFINITE
+      })
     }
   }
 
+  const showSnack = ({ msg, duration = Snackbar.LENGTH_LONG, error = false }) => {
+    setTimeout(() => {
+      Snackbar.show({
+        title: msg,
+        color: '#fff',
+        duration: duration,
+        backgroundColor: error ? theme.color.danger : theme.color.primary,
+        action: {
+          title: 'OK',
+          color: '#fff',
+          onPress: () => { /* Do something. */ },
+        },
+      });
+    }, 1000)
+  }
 
   //Scrollar para exibir os fields com errors
   function scrolling(result) {
@@ -169,6 +219,7 @@ const Form = ({ navigation, item = {}, ...props }) => {
         props.style
         ]}
       >
+        <Progress isVisible={showProgress} />
         <KeyboardAvoidingView
           style={{
             flex: 1,
@@ -187,7 +238,7 @@ const Form = ({ navigation, item = {}, ...props }) => {
               onDateChange={(date) => {
                 setData(date)
               }}
-              error={errors.data}
+              error={errors.realizado_em}
             />
             <View
               style={styles.inputContainer}
@@ -219,32 +270,33 @@ const Form = ({ navigation, item = {}, ...props }) => {
               }}
               error={errors.valor}
             />
-            <RadioForm
-              radio_props={
-                tipos.map((item) => (
-                  {
-                    value: item.id,
-                    label: item.nome
-                  }
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                paddingTop: 24,
+                paddingBottom: 13
+              }}
+            >
+              {
+                tipos.map((item, key) => (
+                  <RadioButton
+                    key={key}
+                    label={item.nome}
+                    selected={tipo == item.id}
+                    onPress={() => setTipo(item.id)}
+                  />
                 ))
               }
-              buttonSize={24}
-              onPress={setTipo}
-              buttonColor={'#3AB9CE'}
-              selectedButtonColor={'#3AB9CE'}
-              wrapStyle={{ alignSelf: 'center' }}
-              style={{ flex: 1, justifyContent: 'space-around', paddingTop: 24, paddingBottom: 13 }}
-              initial={0}
-              formHorizontal={true}
-              onPress={(value) => setTipo(value)}
-            />
+            </View>
+
             <SelectField
               label="Categoria"
               error={errors.categoria}
               selectedValue={categoria}
               onValueChange={(itemValue, itemIndex) => {
                 setCategoria(itemValue)
-                console.log(itemValue)
               }
               }
             >
@@ -265,30 +317,10 @@ const Form = ({ navigation, item = {}, ...props }) => {
               }
             </SelectField>
           </ScrollView>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              justifyContent: 'space-evenly',
-              paddingBottom: 20,
-              paddingTop: 18,
-            }}>
-            <TouchableOpacity
-              style={{ alignSelf: 'center', height: 30, }}
-              onPress={() => navigation.goBack()}>
-              <Text
-                style={{ color: '#105762' }}
-              >
-                VOLTAR
-                  </Text>
-            </TouchableOpacity>
-            <GradientButton
-              onPress={handleSalvar}
-              text="SALVAR"
-              style={{ elevation: 4, alignSelf: 'center' }}
-            />
-          </View>
+          <Footer
+            onBackPress={() => navigation.goBack()}
+            onSubmitPress={handleSalvar}
+          />
         </KeyboardAvoidingView>
       </Card>
     </>

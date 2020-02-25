@@ -27,6 +27,17 @@ if (__DEV__) {
   Reactotron.clear()
 }
 
+// make a new one
+console.log = (...args) => {
+
+  // send this off to Reactotron.
+  Reactotron.display({
+    name: 'CONSOLE.LOG',
+    value: args,
+    preview: args.length > 0 && typeof args[0] === 'string' ? args[0] : null
+  })
+}
+
 Reactotron.onCustomCommand('test', () => console.tron.log('This is an example'))
 
 console.tron = Reactotron

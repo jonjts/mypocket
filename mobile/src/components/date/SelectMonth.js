@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 const styles = require('./styles');
 import moment from "moment";
 import 'moment/locale/pt-br'
@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 import { func } from 'prop-types';
 
-const SelectMonth = ({ onSelectShow, ...props }) => {
+const SelectMonth = ({ onSelectShow, onMonthChanged, ...props }) => {
 
     const [showSelect, setShowSelect] = useState(false)
     const [month, setMonth] = useState(moment().locale('pt-br'))
@@ -26,6 +26,10 @@ const SelectMonth = ({ onSelectShow, ...props }) => {
     const [animation] = useState(new Animated.Value(-Dimensions.get('window').height))
 
     const container = useRef()
+
+    useEffect(() => {
+        if (onMonthChanged) onMonthChanged(month)
+    }, [month])
 
     React.useEffect(() => {
         if (showSelect) {

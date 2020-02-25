@@ -5,17 +5,21 @@ import GradientButton from '../buttons/GradientButton'
 import Modal from "./MyModal";
 import Icon from 'react-native-vector-icons/Feather';
 
-const QuestionModal = ({ forwardedRef, ...rest }) => {
+const QuestionModal = ({ forwardedRef, icon, ...rest }) => {
 
     return (
         <Modal {...rest}>
             <View>
-                <Icon
-                    style={{ alignSelf: 'center', justifyContent: 'center', alignContent: 'center' }}
-                    name="help-circle"
-                    size={35}
-                    color="#105762"
-                />
+                {
+                    icon ? icon :
+                        <Icon
+                            style={{ alignSelf: 'center', justifyContent: 'center', alignContent: 'center' }}
+                            name="help-circle"
+                            size={35}
+                            color="#105762"
+                        />
+                }
+
                 {rest.children}
                 <View
                     style={{

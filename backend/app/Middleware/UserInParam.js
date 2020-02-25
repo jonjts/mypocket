@@ -11,7 +11,7 @@ class UserInParam {
    */
   async handle({ request, auth, params }, next) {
     let user = await auth.getUser()
-    const userId = params.id
+    const userId = params.user_id || params.id
 
     if (user.id != userId) {
       let err = new Error('Você não tem permissão')

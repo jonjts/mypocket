@@ -190,7 +190,7 @@ const MainNavigation = createStackNavigator({
 },
   {
     initialRouteName: 'Tab',
-    transitionConfig: () => fromRight(500),
+    transitionConfig: () => fromRight(),
   },
 );
 

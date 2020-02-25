@@ -15,7 +15,7 @@ class CreateItemSchema extends Schema {
         .unsigned()
         .references('id')
         .inTable('security.users')
-        table
+      table
         .uuid('categoria_id')
         .notNullable()
         .unsigned()
@@ -27,6 +27,7 @@ class CreateItemSchema extends Schema {
       table
         .date('data')
         .notNullable()
+        .comment('data em que a receita/despesa foi/será realizada')
       table
         .decimal('valor', 12, 2)
         .notNullable()

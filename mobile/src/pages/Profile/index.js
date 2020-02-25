@@ -50,7 +50,7 @@ const Profile = ({ navigation, updateUserSuccess }) => {
         const realm = await getRealm();
         const credentials = await utils.credentials()
 
-        const user = realm.objects('User').filtered(` _id = '${credentials.user_id}'`)[0];
+        const user =  realm.objects('User').filtered(` id = '${credentials.user_id}'`)[0];
         setUser(user)
 
     }
@@ -140,7 +140,7 @@ const Profile = ({ navigation, updateUserSuccess }) => {
                                         Nascimento
                                 </Text>
                                     <Text style={styles.value}>
-                                        {formatDate(user.dataNascimento)}
+                                        {formatDate(user.data_nascimento)}
                                     </Text>
                                 </View>
                             </View>

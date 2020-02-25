@@ -5,6 +5,7 @@ import logo from '../../assets/images/logo.png'
 import { useDispatch } from 'react-redux'
 
 import { CategoriasTypes } from '~/store/ducks/categorias'
+import { ItensTypes } from '~/store/ducks/itens'
 
 import {
     StatusBar,

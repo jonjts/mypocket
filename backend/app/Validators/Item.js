@@ -12,7 +12,7 @@ class Item {
     return {
       valor: [rule('required'),],
       descricao: [rule('required')],
-      data: [rule('required')],
+      realizado_em: [rule('required')],
       tipo: [
         rule('required'),
         rule('in', ['R', 'D'])
@@ -25,7 +25,7 @@ class Item {
     return {
       "valor.required": "Informe o valor",
       "descricao.required": "Informe uma descrição",
-      "data.required": "Informe a data",
+      "realizado_em.required": "Informe a data",
       "tipo.required": "Informe o tipo",
       "tipo.in": "Tipo deve ser despesa ou receita",
       "categoria_id.required": "Selecione uma categoria",
