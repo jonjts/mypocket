@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 import { func } from 'prop-types';
 
-const SelectMonth = ({ onSelectShow, onMonthChanged, ...props }) => {
+const SelectMonth = ({ onMonthChanged, ...props }) => {
 
     const [showSelect, setShowSelect] = useState(false)
     const [month, setMonth] = useState(moment().locale('pt-br'))
@@ -71,6 +71,22 @@ const SelectMonth = ({ onSelectShow, onMonthChanged, ...props }) => {
 
     function handleMonthNext() {
         setMonth(moment(month.add(1, 'months')))
+    }
+
+    function slideIn() {
+        const screenHeight = 14;
+        const slideIn = {
+            transform: [
+                {
+                    translateY: animation.interpolate({
+                        inputRange: [0.001, 1] ,
+                        outputRange: [0, 1 * screenHeight],
+                        extrapolate: "extend",
+                    }),
+                },
+            ],
+        };
+        return slideIn;
     }
 
     function slideUp() {
@@ -210,28 +226,35 @@ const SelectMonth = ({ onSelectShow, onMonthChanged, ...props }) => {
                         </Animated.View>
 
                         :
-                        <View style={styles.monthLabelContainer}>
-                            <TouchableOpacity
-                                style={{
-                                    flexDirection: 'row',
-                                    justifyContent: 'center',
-                                    alignContent: 'center',
-                                    alignItems: 'center',
-                                    minHeight: 40
-                                }}
-                                onPress={() => setShowSelect(true)}
-                            >
-                                <Text style={styles.monthLabel}>
-                                    {month.format('MMMM, YYYY')}
-                                </Text>
-                                <Icon
-                                    name="calendar"
-                                    size={16}
-                                    color="#fff"
-                                />
-                            </TouchableOpacity>
+                        <Animated.View
+                            style={[{ opacity: new Animated.Value(Dimensions.get('window').height) },
+                            //StyleSheet.absoluteFill,
+                            slideIn()
+                            ]}
+                        >
+                            <View style={styles.monthLabelContainer}>
+                                <TouchableOpacity
+                                    style={{
+                                        flexDirection: 'row',
+                                        justifyContent: 'center',
+                                        alignContent: 'center',
+                                        alignItems: 'center',
+                                        minHeight: 40
+                                    }}
+                                    onPress={() => setShowSelect(true)}
+                                >
+                                    <Text style={styles.monthLabel}>
+                                        {month.format('MMMM, YYYY')}
+                                    </Text>
+                                    <Icon
+                                        name="calendar"
+                                        size={16}
+                                        color="#fff"
+                                    />
+                                </TouchableOpacity>
 
-                        </View>
+                            </View>
+                        </Animated.View>
                 }
 
             </View>

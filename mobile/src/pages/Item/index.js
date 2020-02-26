@@ -347,6 +347,7 @@ export default function Itens({ navigation }) {
 
   return (
     <SafeAreaView style={[{ display: 'flex', flex: 1, backgroundColor: '#F3F3F3' }]}>
+
       <QuestionModal
         isVisible={itemToDelete}
         backAction={() => setItemToDelete(null)}
@@ -373,42 +374,45 @@ export default function Itens({ navigation }) {
           Você deseja realmente excluir este item?
         </Text>
       </QuestionModal>
-      <View style={StyleSheet.absoluteFill, { flex: 1 }}>
-        <Header
-        />
-        <View style={
-          utils.styles.mainContainer
-        }>
-          <SelectMonth
-            monitorToHide={showSelect}
-            onMonthChanged={setMonth}
+      <TouchableWithoutFeedback onPress={() => setShowSelect(!showSelect)} accessible={false}>
+
+        <View style={StyleSheet.absoluteFill, { flex: 1 }}>
+          <Header
           />
-          <View
-            style={{
-              flex: 1
-            }}
-          >
-            <List
-              itens={itens}
-              loading={(loadingItens || loadingMoreItens) && hasMoreToLoad}
-              load={dispatchFindAllItens}
-              onDelete={setItemToDelete}
-              onEdit={editItem}
-              header={mainHeader()}
-              onMoreItens={() => {
-                setLoadMoreItens(true)
-                setPageProperties(
-                  {
-                    ...pageProperties,
-                    page: pageProperties.page + 1
-                  }
-                )
-              }}
+          <View style={
+            utils.styles.mainContainer
+          }>
+            <SelectMonth
+              monitorToHide={showSelect}
+              onMonthChanged={setMonth}
             />
+            <View
+              style={{
+                flex: 1
+              }}
+            >
+              <List
+                onScroll={() => setShowSelect(!showSelect)}
+                itens={itens}
+                loading={(loadingItens || loadingMoreItens) && hasMoreToLoad}
+                load={dispatchFindAllItens}
+                onDelete={setItemToDelete}
+                onEdit={editItem}
+                header={mainHeader()}
+                onMoreItens={() => {
+                  setLoadMoreItens(true)
+                  setPageProperties(
+                    {
+                      ...pageProperties,
+                      page: pageProperties.page + 1
+                    }
+                  )
+                }}
+              />
+            </View>
           </View>
         </View>
-
-      </View>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   )
 }

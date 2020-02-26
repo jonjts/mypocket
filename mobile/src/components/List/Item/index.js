@@ -19,6 +19,7 @@ export default ({
     onDelete = () => { },
     onEdit = () => { },
     header,
+    onScroll,
 }) => {
 
     const progress = () => (
@@ -64,6 +65,7 @@ export default ({
             keyExtractor={(item) => item.id}
             ListFooterComponent={(loading && progress)}
             ListEmptyComponent={emptyList}
+            onTouchStart={onScroll}
             onEndReached={() => {
                 onMoreItens()
             }}

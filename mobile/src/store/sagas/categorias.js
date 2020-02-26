@@ -14,7 +14,7 @@ export function* update() {
     yield put(CategoriasActions.updateCategoriasSuccess(categorias));
 
   } catch (error) {
-    console.error(error)
+    console.log(error)
   }
 }
 
@@ -28,6 +28,6 @@ export function* load() {
     yield put(CategoriasActions.loadCategoriasSuccess(Array.from(categorias)));
 
   } catch (error) {
-    console.error(error)
+    console.log(error)
   }
 }

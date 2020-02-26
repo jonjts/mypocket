@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import logo from '../../assets/images/logo.png'
 
 import { useDispatch } from 'react-redux'
 
 import { CategoriasTypes } from '~/store/ducks/categorias'
-import { ItensTypes } from '~/store/ducks/itens'
 
 import {
     StatusBar,
@@ -15,6 +14,7 @@ import {
     View
 } from 'react-native';
 import util from '../../utils';
+import Snackbar from 'react-native-snackbar';
 
 export default function SplashScreen({ navigation }) {
 
@@ -28,6 +28,7 @@ export default function SplashScreen({ navigation }) {
         await this.performTimeConsumingTask();
 
         dispatch({ type: CategoriasTypes.UPDATE_CATEGORIAS })
+
 
         const credentials = await util.credentials()
 
