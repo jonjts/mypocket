@@ -13,7 +13,8 @@ const { Types, Creators } = createActions({
   saveCloudItemFail: ["message", "isNew"],
   findAll: ["params"],
   findAllFinished: ["params"],
-  deleteCloudItem: ["params"]
+  deleteCloudItem: ["params"],
+  changed: ["params"]
 });
 
 markActionsOffline(Creators, ["saveCloudItem", "deleteCloudItem"]);
@@ -32,6 +33,8 @@ export const INITIAL_STATE = Immutable({
 /* Reducers */
 
 export const reducer = createReducer(INITIAL_STATE, {
+  [Types.CHANGED]: (state, { params }) =>
+    state.merge({ params, token: (new Date()).getTime() }),
   [Types.DELETE_CLOUD_ITEM]: (state, { params }) => state.merge({ params, }),
   [Types.FIND_ALL]: (state, { params }) => state.merge({ params, loading: true }),
   [Types.FIND_ALL_FINISHED]: (state, { params }) =>

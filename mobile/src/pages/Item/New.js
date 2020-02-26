@@ -33,7 +33,6 @@ export default function New({ navigation, ...props }) {
                     <Form
                         {...props}
                         navigation={navigation}
-                        itemId={{}}
                     />
                 </View>
             </SafeAreaView>

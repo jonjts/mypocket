@@ -4,10 +4,14 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Picker,
+  Text,
+  TouchableOpacity
 } from 'react-native';
 
 import theme from '~/theme/light'
 
+import QuestionModal from '~/components/modal/QuestionModal'
+import Icon from 'react-native-vector-icons/Feather';
 import Snackbar from 'react-native-snackbar';
 import Footer from '~/components/Form/Footer'
 import Progress from '~/components/modal/Progress'
@@ -41,6 +45,7 @@ const Form = ({ navigation, ...props }) => {
   const [descricao, setDescricao] = useState(null)
   const [errors, setErrors] = useState({})
   const [showProgress, setShowProgress] = useState(false)
+  const [askToDelete, setAskToDelete] = useState(false)
 
   const scroll = useRef()
 
@@ -59,7 +64,6 @@ const Form = ({ navigation, ...props }) => {
   useEffect(() => {
     if (item.id) {
       const realizadoEm = moment(item.realizado_em, 'DD/MM/YYYY')
-      console.log('realizado', realizadoEm)
       setData(realizadoEm.format('DD/MM/YYYY'))
       setValor(item.valor)
       setTipo(item.tipo)
@@ -161,7 +165,7 @@ const Form = ({ navigation, ...props }) => {
         isNew: isNew()
       })
 
-      showSnack({ msg: `${item.tipo == 'R' ? 'Receita' : 'Despesa'} adicionada`, })
+      showSnack({ msg: `${item.tipo == 'R' ? 'Receita' : 'Despesa'} salva.`, })
 
       navigation.goBack()
     } catch (error) {
@@ -202,6 +206,100 @@ const Form = ({ navigation, ...props }) => {
     }
   }
 
+  const deleteItem = async () => {
+    try {
+      const realm = await getRealm();
+      realm.write(() => {
+        let model = realm.objects('Item').filtered(` id = '${item.id}'`)[0];
+        model.deleted_at = new Date()
+        model.sent_at
+      })
+
+      //Dispara o evento para remover na nuvem
+      dispacth({
+        type: ItensTypes.DELETE_CLOUD_ITEM,
+        params: {
+          id: item.id
+        },
+      })
+
+      dispacth({
+        type: ItensTypes.CHANGED,
+        params: {
+          id: item.id
+        },
+      })
+
+      //Exibe a mensagem de successo
+      navigation.goBack()
+      showSnack({ msg: 'Item removido.' })
+    } catch (error) {
+      console.log(error)
+      showSnack({
+        error: true,
+        msg: 'Não foi possível remover item.'
+      })
+    }
+
+  }
+
+  const renderDeleteButton = () => (
+    <TouchableOpacity
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        paddingTop: 16
+      }}
+      onPress={() => setAskToDelete(true)}
+    >
+      <Icon
+        style={{ alignSelf: 'center', justifyContent: 'center', alignContent: 'center' }}
+        name='trash-2'
+        size={20}
+        color={theme.color.danger}
+      />
+      <Text
+        style={{
+          color: theme.color.danger,
+          fontSize: 14,
+        }}
+      >
+        Excluir
+      </Text>
+    </TouchableOpacity>
+  )
+
+
+  const renderDeleteModal = () => (
+    <QuestionModal
+      isVisible={askToDelete}
+      backAction={() => setAskToDelete(false)}
+      icon={
+        <Icon
+          style={{ alignSelf: 'center', justifyContent: 'center', alignContent: 'center' }}
+          name='trash-2'
+          size={35}
+          color={theme.color.danger}
+        />}
+      backText="Cancelar"
+      cofirmText="Sim"
+      confirmAction={deleteItem}
+    >
+      <Text
+        style={{
+          fontSize: 16,
+          lineHeight: 24,
+          textAlign: "center",
+          color: theme.color.secondary,
+          padding: 19
+        }}
+      >
+        Você deseja realmente excluir este item?
+    </Text>
+    </QuestionModal>
+  )
+
 
   return (
     <>
@@ -220,6 +318,7 @@ const Form = ({ navigation, ...props }) => {
         ]}
       >
         <Progress isVisible={showProgress} />
+        {renderDeleteModal()}
         <KeyboardAvoidingView
           style={{
             flex: 1,
@@ -316,6 +415,10 @@ const Form = ({ navigation, ...props }) => {
                 ))
               }
             </SelectField>
+            {
+              item.id && renderDeleteButton()
+            }
+
           </ScrollView>
           <Footer
             onBackPress={() => navigation.goBack()}

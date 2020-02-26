@@ -1,5 +1,8 @@
 import React from 'react';
 
+import moment from "~/utils/moments";
+
+import NumberFormat from 'react-number-format';
 import Icon from 'react-native-vector-icons/Feather';
 import Swipeout from 'react-native-swipeout';
 import theme from '~/theme/light'
@@ -26,19 +29,38 @@ export default ({ item, onDelete, onEdit }) => {
                 alignSelf: 'center'
             }}
         >
-            <Text
+            <View
                 style={{
-                    fontSize: 22,
-                    lineHeight: 28,
-                    fontWeight: 'bold',
-                    color: theme.color.default,
                     paddingRight: 16
                 }}
             >
-                {
-                    item.realizado_em.getDate()
-                }
-            </Text>
+                <Text
+                    style={{
+                        fontSize: 22,
+                        lineHeight: 28,
+                        fontWeight: 'bold',
+                        color: theme.color.default,
+                        alignSelf: 'center',
+                    }}
+                >
+                    {
+                        item.realizado_em.getDate()
+                    }
+                </Text>
+                <Text
+                    style={{
+                        fontSize: 12,
+                        lineHeight: 14,
+                        fontWeight: 'bold',
+                        alignSelf: 'center',
+                        color: theme.color.default,
+                    }}
+                >
+                    {
+                        moment(item.realizado_em).format('MMM')
+                    }
+                </Text>
+            </View>
             <View
                 style={{
                     borderLeftWidth: 1,
@@ -104,9 +126,18 @@ export default ({ item, onDelete, onEdit }) => {
                 }}
             >
                 {item.tipo == 'R' ? '+ ' : '- '}
-                {
-                    Number(item.valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2, })
-                }
+
+                <NumberFormat
+                    value={item.valor}
+                    displayType={'text'}
+                    thousandSeparator={true}
+                    decimalScale={2}
+                    prefix={'R$ '}
+                    fixedDecimalScale={true}
+                    renderText={value => <Text >
+                        {value}
+                    </Text>}
+                />
             </Text>
         </View>
     )

@@ -4,6 +4,7 @@ import getRealm from '~/services/realm';
 
 import theme from '~/theme/light'
 
+import ShimmerPlaceHolder from 'react-native-shimmer-placeholder'
 import Icon from 'react-native-vector-icons/Feather';
 var styles = require('./styles');
 import QuestionModal from '~/components/modal/QuestionModal'
@@ -59,6 +60,7 @@ export default function Itens({ navigation }) {
         ...pageProperties,
         page: 1,
       })
+      loadDashboard()
     }
   }, [loadingItens])
 
@@ -73,7 +75,11 @@ export default function Itens({ navigation }) {
   }, [month])
 
   useEffect(() => {
-    if (pageProperties.page === 0) dispatchFindAllItens()
+    if (pageProperties.page === 0) {
+      dispatchFindAllItens()
+      setTotalReceitas(null)
+      setTotalDespesas(null)
+    }
   }, [pageProperties])
 
   useEffect(() => {
@@ -84,7 +90,10 @@ export default function Itens({ navigation }) {
   }, [itensChange])
 
   useEffect(() => {
-    if (pageProperties.page > 0) loadItens()
+    if (pageProperties.page > 0) {
+      loadItens()
+      loadDashboard()
+    }
   }, [pageProperties])
 
   function showSnack({ error = false, msg, duration = Snackbar.LENGTH_LONG }) {
@@ -119,7 +128,37 @@ export default function Itens({ navigation }) {
         msg: 'Não conseguimos atualizar seus itens'
       })
     }
+  }
 
+  async function loadDashboard() {
+    try {
+      setTotalReceitas(null)
+      setTotalDespesas(null)
+      const firstDay = new Date(month?.startOf('month').valueOf())
+      const lastDay = new Date(month?.endOf('month').valueOf())
+      const realm = await getRealm();
+
+      realm.write(() => {
+
+        const query = `realizado_em >= $0 AND realizado_em <= $1 AND deleted_at = $2 AND tipo = $3`
+        let despesas = realm
+          .objects('Item')
+          .filtered(query, firstDay, lastDay, null, 'D')
+          .sum('valor')
+
+        let receitas = realm
+          .objects('Item')
+          .filtered(query, firstDay, lastDay, null, 'R')
+          .sum('valor')
+
+
+        setTotalDespesas(despesas || 0.0001)
+        setTotalReceitas(receitas || 0.0001)
+      })
+
+    } catch (error) {
+      console.warn('Falha ao carregar dashboard', error)
+    }
   }
 
   async function loadItens() {
@@ -211,6 +250,7 @@ export default function Itens({ navigation }) {
       realm.write(() => {
         let model = realm.objects('Item').filtered(` id = '${itemToDelete}'`)[0];
         model.deleted_at = new Date()
+        model.sent_at = null
       })
 
       dispatch({
@@ -236,8 +276,73 @@ export default function Itens({ navigation }) {
         msg: 'Não foi possível remover item.'
       })
     }
-
   }
+
+
+  const mainHeader = () => (
+    <View
+      style={{
+        height: 80
+      }}
+    >
+      <View style={{ flex: 1, alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row', display: 'flex', flex: 1, alignContent: "space-around" }}>
+          <Card style={[{ marginRight: 0, }, styles.cardContainer]}>
+            <Text style={[styles.cardLabel, utils.styles.mainLabelColor]}>
+              Receitas
+            </Text>
+            {
+              totalReceitas ?
+                <NumberFormat
+                  value={totalReceitas}
+                  displayType={'text'}
+                  thousandSeparator={true}
+                  decimalScale={2}
+                  prefix={'R$'}
+                  fixedDecimalScale={true}
+                  renderText={value => <Text style={[styles.cardMoney, { color: '#3AB9CE' }]}>
+                    {value}
+                  </Text>}
+                />
+                :
+                <ShimmerPlaceHolder height={15}
+                  width={70}
+                  autoRun={true} />
+            }
+
+          </Card>
+          <View style={{ width: 4 }}>
+          </View>
+          <Card style={[{ marginLeft: 0 }, styles.cardContainer]} >
+            <Text style={[styles.cardLabel, utils.styles.mainLabelColor]}>
+              Despesas
+            </Text>
+
+            {
+              totalDespesas ?
+                <NumberFormat
+                  value={totalDespesas}
+                  displayType={'text'}
+                  thousandSeparator={true}
+                  decimalScale={2}
+                  prefix={'R$'}
+                  fixedDecimalScale={true}
+                  renderText={value => <Text style={[styles.cardMoney, { color: theme.color.danger }]}>
+                    {value}
+                  </Text>}
+                />
+                :
+                <ShimmerPlaceHolder height={15}
+                  width={70}
+                  autoRun={true} />
+            }
+
+          </Card>
+
+        </View>
+      </View>
+    </View>
+  )
 
 
   return (
@@ -265,7 +370,7 @@ export default function Itens({ navigation }) {
             padding: 19
           }}
         >
-          Você deseja mesmo excluir este item?
+          Você deseja realmente excluir este item?
         </Text>
       </QuestionModal>
       <View style={StyleSheet.absoluteFill, { flex: 1 }}>
@@ -280,55 +385,6 @@ export default function Itens({ navigation }) {
           />
           <View
             style={{
-              height: 80
-            }}
-          >
-            <View style={{ flex: 1, alignItems: 'center' }}>
-              <View style={{ flexDirection: 'row', display: 'flex', flex: 1, alignContent: "space-around" }}>
-                <Card style={[{ marginRight: 0, }, styles.cardContainer]}>
-                  <Text style={[styles.cardLabel, utils.styles.mainLabelColor]}>
-                    Receitas
-                    </Text>
-
-                  <NumberFormat
-                    value={totalReceitas}
-                    displayType={'text'}
-                    thousandSeparator={true}
-                    decimalScale={2}
-                    prefix={'R$'}
-                    fixedDecimalScale={true}
-                    renderText={value => <Text style={[styles.cardMoney, { color: '#3AB9CE' }]}>
-                      {value}
-                    </Text>}
-                  />
-                </Card>
-                <View style={{ width: 4 }}>
-                </View>
-                <Card style={[{ marginLeft: 0 }, styles.cardContainer]} >
-                  <Text style={[styles.cardLabel, utils.styles.mainLabelColor]}>
-                    Despesas
-                    </Text>
-                  <NumberFormat
-                    value={totalDespesas}
-                    thousandSeparator={true}
-                    displayType={'text'}
-                    decimalScale={2}
-                    fixedDecimalScale={true}
-                    prefix={'R$'}
-                    renderText={value => <Text style={[styles.cardMoney, { color: '#FC451D' }]}>
-                      {value}
-                    </Text>
-                    }
-                  />
-
-                </Card>
-
-              </View>
-            </View>
-          </View>
-          <View
-            style={{
-              paddingTop: 12,
               flex: 1
             }}
           >
@@ -338,6 +394,7 @@ export default function Itens({ navigation }) {
               load={dispatchFindAllItens}
               onDelete={setItemToDelete}
               onEdit={editItem}
+              header={mainHeader()}
               onMoreItens={() => {
                 setLoadMoreItens(true)
                 setPageProperties(

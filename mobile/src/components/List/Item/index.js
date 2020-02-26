@@ -17,7 +17,8 @@ export default ({
     load = () => { },
     onMoreItens = () => { },
     onDelete = () => { },
-    onEdit = () => { }
+    onEdit = () => { },
+    header,
 }) => {
 
     const progress = () => (
@@ -38,6 +39,7 @@ export default ({
             style={{
                 display: 'flex',
                 flex: 1,
+                paddingTop: 12,
                 justifyContent: 'center',
                 alignContent: 'center',
                 alignSelf: 'center',
@@ -54,21 +56,12 @@ export default ({
         </View>
     )
 
-    const stickyHeaderIndices = (array) => {
-        const headers = []
-        array.map(element => {
-            if (element.header) headers.push(array.indexOf(element))
-        });
-        headers.push(0)
-        return headers
-    }
-
     return (
         <FlatList
             invertStickyHeaders
             data={itens}
-            renderItem={({ item }) => <Element key={item.id} item={item} onDelete={onDelete} onEdit={onEdit} />}
-            keyExtractor={item => item.id}
+            renderItem={({ item }) => <Element item={item} onDelete={onDelete} onEdit={onEdit} />}
+            keyExtractor={(item) => item.id}
             ListFooterComponent={(loading && progress)}
             ListEmptyComponent={emptyList}
             onEndReached={() => {
@@ -81,7 +74,7 @@ export default ({
                     refreshing={loading}
                     onRefresh={load} />
             }
-            //stickyHeaderIndices={stickyHeaderIndices(itens)}
+            ListHeaderComponent={header}
             refreshing={loading}
             onRefresh={load}
 
