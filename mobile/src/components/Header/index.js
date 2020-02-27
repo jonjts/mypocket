@@ -11,7 +11,7 @@ import {
     View
 } from 'react-native';
 
-const Header = ({ navigation, ...props }) => {
+const Header = ({ navigation, title = 'MyPocket', ...props }) => {
 
     const [showMenuButton, setShowMenuButton] = useState(props.showMenu != null ? props.showMenu : true)
 
@@ -79,7 +79,7 @@ const Header = ({ navigation, ...props }) => {
                         }
                     </View>
                     <Text style={styles.appName}>
-                        MyPocket
+                        {title}
                     </Text>
                     <TouchableOpacity
                         style={[styles.mainHeaderRight, { height: 24, width: 24 }]}

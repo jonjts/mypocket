@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     View,
     SafeAreaView,
@@ -11,30 +11,27 @@ import Form from './Form'
 import styles from './styles';
 
 export default function New({ navigation, ...props }) {
+
+    const [title, setTitle] = useState('Novo')
+
+    useEffect(() => {
+        if (navigation.state.params && navigation.state.params.item) {
+            setTitle('Alterar')
+        }
+    }, [navigation])
+
     return (
         <>
             <SafeAreaView style={{ display: 'flex', flex: 1, backgroundColor: '#F3F3F3', }}>
                 <Header
                     showBack={true}
                     rightAcion={() => navigation.goBack()}
+                    title={title}
                 />
-                <View style={
-                    utils.styles.mainContainer
-                }>
-                    <Text
-                        style={[utils.styles.headerSubTitle, { paddingBottom: 23 }]}
-                    >
-                        {
-                            (navigation.state.params && navigation.state.params.item) ?
-                                'Alterar' :
-                                'Novo'
-                        }
-                    </Text>
-                    <Form
-                        {...props}
-                        navigation={navigation}
-                    />
-                </View>
+                <Form
+                    {...props}
+                    navigation={navigation}
+                />
             </SafeAreaView>
         </>
     );

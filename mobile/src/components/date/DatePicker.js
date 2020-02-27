@@ -1,30 +1,23 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Image,
     Text,
     TouchableOpacity
 } from 'react-native';
-import TextField from '../TextField'
 import MaskTextField from '~/components/MaskTextField'
+import DateTimePicker from '@react-native-community/datetimepicker';
 import calendarIcon from '../../assets/images/calendar.png'
-import { BoxShadow } from 'react-native-shadow';
 
 import 'moment/locale/pt-br'
 import moment from 'moment';
 
 import styles from './styles';
 
-export default function DatePicker({ error, onDateChange, ...props }) {
+export default function DatePicker({ error, placeholder, date = (moment().format('DD/MM/YYYY')), onDateChange, mode = 'date', ...props }) {
 
-    const [date, setDate] = useState(moment().format('DD/MM/YYYY'))
     const [showPicker, setShowPicker] = useState(false)
 
-    useEffect(() => {
-        if (onDateChange) {
-            onDateChange(date)
-        }
-    }, [date])
 
     return (
         <View>
@@ -36,13 +29,13 @@ export default function DatePicker({ error, onDateChange, ...props }) {
                     <MaskTextField
                         onChangeText={(formatted, extracted) => {
                             setShowPicker(false)
-                            setDate(formatted)
+                            onDateChange(formatted)
                         }}
                         error={error}
                         type={'datetime'}
                         style={[styles.input, props.style]}
                         placeholderTextColor={error ? "#FC451D" : "#a7a7a7"}
-                        placeholder='Sua data de nascimento...'
+                        placeholder={placeholder}
                         returnKeyType={"next"}
                         autoCorrect={false}
                         options={{
@@ -53,27 +46,35 @@ export default function DatePicker({ error, onDateChange, ...props }) {
                     />
                     <TouchableOpacity
                         style={styles.visibilityBtn}
-                        onPress={() => setShowPicker(!showPicker)}
+                        onPress={() => setShowPicker(true)}
                     >
                         <Image
                             style={{ width: 16, height: 16, alignItems: 'center', alignSelf: 'center' }}
-                            source={calendarIcon} />
+                            source={calendarIcon}
+                        />
                     </TouchableOpacity>
                 </View>
             </View>
             {
                 showPicker ?
-                    <View
-                        style={[{
-                            flexDirection: 'row',
-                            backgroundColor: '#ccc',
-                        },
-                        ]}
-                    >
-
-                    </View>
-                    :
-                    null
+                    (
+                        <DateTimePicker
+                            testID="dateTimePicker"
+                            timeZoneOffsetInMinutes={0}
+                            value={date ? (moment(date, 'DD/MM/YYYY').valueOf()) : new Date()}
+                            mode={mode}
+                            is24Hour={true}
+                            display="default"
+                            onChange={(event, date) => {
+                                setShowPicker(Platform.OS === 'ios');
+                                if (date) {
+                                    onDateChange(moment(new Date(date)).format('DD/MM/YYYY'))
+                                }
+                            }}
+                            locale="pt-BR"
+                        />
+                    )
+                    : null
             }
         </View>
     );

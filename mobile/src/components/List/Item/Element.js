@@ -193,7 +193,9 @@ export default ({ item, onDelete, onEdit }) => {
                                 marginBottom: 13,
                                 borderRadius: 6,
                             }}
-                            onPress={() => onEdit(item.id)}
+                            onPress={() => {
+                                onEdit(item.id)
+                            }}
                         >
                             {datePreview()}
                             {descricaoPreview()}

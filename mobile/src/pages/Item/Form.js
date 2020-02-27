@@ -38,7 +38,7 @@ import { ItensTypes } from '~/store/ducks/itens'
 const Form = ({ navigation, ...props }) => {
 
   const [item, setItem] = useState({})
-  const [data, setData] = useState(new Date())
+  const [data, setData] = useState(moment(new Date()).format('DD/MM/YYYY'))
   const [valor, setValor] = useState(null)
   const [tipo, setTipo] = useState('D')
   const [categoria, setCategoria] = useState(null)
@@ -304,17 +304,19 @@ const Form = ({ navigation, ...props }) => {
   return (
     <>
       <Card
-        style={[{
-          flex: 1,
-          alignSelf: "center",
-          marginBottom: 20,
-          paddingTop: 16,
-          paddingLeft: null,
-          paddingRight: null,
-          alignSelf: 'center', alignContent: "center",
-          alignItems: 'center',
-        },
-        props.style
+        style={[
+          utils.styles.mainContainer,
+          {
+            flex: 1,
+            alignSelf: "center",
+            marginBottom: 20,
+            paddingTop: 16,
+            paddingLeft: null,
+            paddingRight: null,
+            alignSelf: 'center', alignContent: "center",
+            alignItems: 'center',
+          },
+          props.style,
         ]}
       >
         <Progress isVisible={showProgress} />
@@ -333,7 +335,8 @@ const Form = ({ navigation, ...props }) => {
             style={{ elevation: 40 }}
           >
             <DatePicker
-              value={data}
+              date={data}
+              placeholder={'Data...'}
               onDateChange={(date) => {
                 setData(date)
               }}

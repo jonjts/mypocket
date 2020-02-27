@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import theme from '~/theme/light'
 import Element from './Element'
+let uuid = require('react-native-uuid');
 
 import {
     View,
@@ -23,15 +24,12 @@ export default ({
 }) => {
 
     const progress = () => (
-        <View
+        <ActivityIndicator
             style={{
-                heigh: 400,
+                height: 100
             }}
-        >
-            <ActivityIndicator
-                size="small"
-                color={theme.color.primary} />
-        </View>
+            size="small"
+            color={theme.color.primary} />
     )
 
     const emptyList = () => (
@@ -61,11 +59,15 @@ export default ({
         <FlatList
             invertStickyHeaders
             data={itens}
+            windowSize={2}
+            initialNumToRender={10}
+            maxToRenderPerBatch={10}
+            removeClippedSubviews={true}
             renderItem={({ item }) => <Element item={item} onDelete={onDelete} onEdit={onEdit} />}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.id ? item.id : uuid.v1()}
             ListFooterComponent={(loading && progress)}
             ListEmptyComponent={emptyList}
-            onTouchStart={onScroll}
+            //onTouchStart={onScroll}
             onEndReached={() => {
                 onMoreItens()
             }}
@@ -77,8 +79,8 @@ export default ({
                     onRefresh={load} />
             }
             ListHeaderComponent={header}
-            refreshing={loading}
-            onRefresh={load}
+        // refreshing={loading}
+        // onRefresh={load}
 
         />
     );
