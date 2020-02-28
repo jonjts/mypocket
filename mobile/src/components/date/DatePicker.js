@@ -5,16 +5,21 @@ import {
     Text,
     TouchableOpacity
 } from 'react-native';
+import theme from '~/theme/light'
 import MaskTextField from '~/components/MaskTextField'
 import DateTimePicker from '@react-native-community/datetimepicker';
-import calendarIcon from '../../assets/images/calendar.png'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import 'moment/locale/pt-br'
 import moment from 'moment';
 
 import styles from './styles';
 
-export default function DatePicker({ error, placeholder, date = (moment().format('DD/MM/YYYY')), onDateChange, mode = 'date', ...props }) {
+export default function DatePicker({ error,
+    placeholder,
+    date = (moment().format('DD/MM/YYYY')),
+    onDateChange,
+    mode = 'date',
+    ...props }) {
 
     const [showPicker, setShowPicker] = useState(false)
 
@@ -48,9 +53,11 @@ export default function DatePicker({ error, placeholder, date = (moment().format
                         style={styles.visibilityBtn}
                         onPress={() => setShowPicker(true)}
                     >
-                        <Image
-                            style={{ width: 16, height: 16, alignItems: 'center', alignSelf: 'center' }}
-                            source={calendarIcon}
+                        <Icon
+                            style={{ alignItems: 'center', alignSelf: 'center' }}
+                            name='calendar-range-outline'
+                            size={18}
+                            color={theme.color.primary}
                         />
                     </TouchableOpacity>
                 </View>

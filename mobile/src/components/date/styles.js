@@ -75,7 +75,7 @@ module.exports = StyleSheet.create({
         display: 'flex',
         right: 3,
         height: 40,
-        width: 35,
+        width: 50,
         padding: 5
     },
     label: {
