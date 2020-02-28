@@ -101,7 +101,6 @@ const Form = ({ navigation, ...props }) => {
   async function handleSalvar() {
     setShowProgress(true)
     try {
-      const newData = moment(data, 'DD/MM/YYYY')
       const user = await utils.getUserModel()
       const categoriaModal = await utils.getModel('Categoria', categoria)
       const newItem = {
@@ -114,12 +113,11 @@ const Form = ({ navigation, ...props }) => {
         descricao: descricao,
         updated_at: new Date()
       }
-      console.log(newItem)
       const result = await validation(newItem, rules)
       setErrors(result ? result : {})
       scrolling(result)
-      newItem['realizado_em'] = newData.format('YYYY-MM-DD')
-      console.log(result)
+      newItem['realizado_em'] = new Date(moment(data, 'DD/MM/YYYY').valueOf())
+      alert(newItem.realizado_em)
       if (!result) {
         saveItem(newItem)
       }

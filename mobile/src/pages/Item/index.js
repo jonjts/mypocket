@@ -18,11 +18,8 @@ import Snackbar from 'react-native-snackbar';
 
 import {
   SafeAreaView,
-  TouchableOpacity,
   Text,
   View,
-  ScrollView,
-  TouchableWithoutFeedback,
   StyleSheet,
 } from 'react-native';
 

@@ -11,6 +11,7 @@ const TextField = ({ forwardedRef, ...rest }) => {
             color: "#105762",
             fontSize: 15,
             height,
+            minHeight: 48,
             flex: 1,
             width: 271,
             backgroundColor: '#fff',
@@ -20,6 +21,7 @@ const TextField = ({ forwardedRef, ...rest }) => {
 
     const shadowStyle = () => (
         {
+            minHeight: 48,
             width: 271,
             height: height,
             color: "#000",

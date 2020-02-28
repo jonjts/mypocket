@@ -194,7 +194,8 @@ export default ({ item, onDelete, onEdit }) => {
                                 borderRadius: 6,
                             }}
                             onPress={() => {
-                                onEdit(item.id)
+                                //onEdit(item.id)
+                                alert(item.realizado_em)
                             }}
                         >
                             {datePreview()}
