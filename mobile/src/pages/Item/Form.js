@@ -21,7 +21,7 @@ import MaskTextField from '~/components/MaskTextField'
 import DatePicker from '~/components/date/DatePicker'
 import SelectField from '~/components/SelectField'
 import RadioButton from '~/components/buttons/RadioButton'
-import moment from "~/utils/moments";
+import moment from 'moment'
 
 import validation from '~/validation'
 import rules from './rules'
@@ -117,7 +117,6 @@ const Form = ({ navigation, ...props }) => {
       setErrors(result ? result : {})
       scrolling(result)
       newItem['realizado_em'] = new Date(moment(data, 'DD/MM/YYYY').valueOf())
-      alert(newItem.realizado_em)
       if (!result) {
         saveItem(newItem)
       }

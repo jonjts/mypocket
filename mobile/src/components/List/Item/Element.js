@@ -1,6 +1,6 @@
 import React from 'react';
 
-import moment from "~/utils/moments";
+import moment from 'moment'
 
 import NumberFormat from 'react-number-format';
 import Icon from 'react-native-vector-icons/Feather';

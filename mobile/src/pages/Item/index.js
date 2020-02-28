@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import moment from "~/utils/moments";
+import moment from 'moment'
 import getRealm from '~/services/realm';
 
 import theme from '~/theme/light'
