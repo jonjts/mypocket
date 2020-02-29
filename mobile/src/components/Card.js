@@ -31,6 +31,8 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width * 0.88,
         paddingLeft: 25,
         paddingRight: 25,
+        display: 'flex',
+        flex: 1
     },
 });
 

@@ -38,7 +38,6 @@ export default ({
             style={{
                 display: 'flex',
                 flex: 1,
-                paddingTop: 12,
                 justifyContent: 'center',
                 alignContent: 'center',
                 alignSelf: 'center',

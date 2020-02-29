@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment'
 import getRealm from '~/services/realm';
 
@@ -10,8 +10,7 @@ var styles = require('./styles');
 import QuestionModal from '~/components/modal/QuestionModal'
 import utils from '~/utils'
 import List from '~/components/List/Item'
-import Header from '../../components/Header'
-import SelectMonth from '~/components/date/SelectMonth'
+import SelectMonthContainer from '~/components/date/SelectMonthContainer'
 import Card from '~/components/Card'
 import NumberFormat from 'react-number-format';
 import Snackbar from 'react-native-snackbar';
@@ -343,8 +342,10 @@ export default function Itens({ navigation }) {
 
 
   return (
-    <SafeAreaView style={[{ display: 'flex', flex: 1, backgroundColor: '#F3F3F3' }]}>
-
+    <SelectMonthContainer
+      monitorToHide={showSelect}
+      onMonthChanged={setMonth}
+    >
       <QuestionModal
         isVisible={itemToDelete != null}
         backAction={() => setItemToDelete(null)}
@@ -371,42 +372,30 @@ export default function Itens({ navigation }) {
           Você deseja realmente excluir este item?
         </Text>
       </QuestionModal>
-      <View style={StyleSheet.absoluteFill, { flex: 1 }}>
-        <Header
+      <View
+        style={{
+          flex: 1
+        }}
+      >
+        <List
+          onScroll={() => setShowSelect(!showSelect)}
+          itens={itens}
+          loading={(loadingItens || loadingMoreItens) && hasMoreToLoad}
+          load={dispatchFindAllItens}
+          onDelete={setItemToDelete}
+          onEdit={editItem}
+          header={mainHeader()}
+          onMoreItens={() => {
+            setLoadMoreItens(true)
+            setPageProperties(
+              {
+                ...pageProperties,
+                page: pageProperties.page + 1
+              }
+            )
+          }}
         />
-        <View style={
-          utils.styles.mainContainer
-        }>
-          <SelectMonth
-            monitorToHide={showSelect}
-            onMonthChanged={setMonth}
-          />
-          <View
-            style={{
-              flex: 1
-            }}
-          >
-            <List
-              onScroll={() => setShowSelect(!showSelect)}
-              itens={itens}
-              loading={(loadingItens || loadingMoreItens) && hasMoreToLoad}
-              load={dispatchFindAllItens}
-              onDelete={setItemToDelete}
-              onEdit={editItem}
-              header={mainHeader()}
-              onMoreItens={() => {
-                setLoadMoreItens(true)
-                setPageProperties(
-                  {
-                    ...pageProperties,
-                    page: pageProperties.page + 1
-                  }
-                )
-              }}
-            />
-          </View>
-        </View>
       </View>
-    </SafeAreaView>
+    </SelectMonthContainer>
   )
 }

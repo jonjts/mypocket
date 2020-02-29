@@ -8,11 +8,35 @@ var {
 
 
 module.exports = StyleSheet.create({
-    container: {
-        //flex: 1,
-        //justifyContent: 'center',
-        //alignItems: 'center',
-        //alignItems: 'center',
+    cardLabel: {
+        fontSize: 13,
+        paddingTop: 8,
+        justifyContent: 'space-around'
     },
-   
+    cardMoney: {
+        fontSize: 18,
+        paddingTop: 11,
+        paddingBottom: 25,
+    },
+    cardContainer: {
+        width: 158,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    formElement: {
+        paddingRight: 25,
+        paddingLeft: 25
+    },
+    labelInput: {
+        display: 'flex',
+        alignItems: 'stretch',
+        justifyContent: "space-between",
+        fontSize: 12,
+        color: '#BDBDBD',
+        lineHeight: 28,
+    },
+    inputContainer: {
+        paddingBottom: 8
+    }
+
 })

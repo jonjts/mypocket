@@ -111,7 +111,7 @@ const SelectMonth = ({ onMonthChanged, ...props }) => {
                 style={[{
                     paddingBottom: Dimensions.get('window').height * 0.05,
                 },
-                showSelect ? { height: 112 } : {}
+                showSelect ? { height: 112, marginBottom: 12 } : {}
                 ]}
                 ref={container}>
                 {
