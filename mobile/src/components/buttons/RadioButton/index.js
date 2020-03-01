@@ -24,7 +24,7 @@ export default ({ onPress, label, selected, isHorizontal }, ...props) => {
                 borderColor: '#3AB9CE',
                 alignItems: 'center',
                 justifyContent: 'center',
-                marginRight: 4
+                marginRight: 8
             }, props.style]}>
                 {
                     selected ?

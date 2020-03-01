@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import getRealm from '~/services/realm';
 import moment from "moment";
+import { useSelector } from 'react-redux'
 
+import { PieChart } from 'react-native-charts-wrapper';
+import { LineChart } from 'react-native-charts-wrapper';
 import NumberFormat from 'react-number-format';
 import ShimmerPlaceHolder from 'react-native-shimmer-placeholder'
 import Card from '~/components/Card'
 import SelectMonthContainer from '~/components/date/SelectMonthContainer'
 import theme from '~/theme/light'
-
 import {
   Text,
   View,
+  StyleSheet,
+  processColor
 } from 'react-native';
 
 export default function Dashboard({ navigation }) {
@@ -22,9 +26,11 @@ export default function Dashboard({ navigation }) {
   const [totalDespesa, setTotalDespesa] = useState(null)
   const [saldo, setSaldo] = useState(0.0)
 
+  const itensChange = useSelector(state => state.itens.token)
+
   useEffect(() => {
     loadDashboard()
-  }, [month])
+  }, [month, itensChange])
 
   useEffect(() => {
     if (totalReceita && totalDespesa) {
@@ -63,6 +69,12 @@ export default function Dashboard({ navigation }) {
     } catch (error) {
       console.log('Falha ao carregar dashboard', error)
     }
+  }
+
+  function chartPercent() {
+    if (totalDespesa.toFixed(0) == 0 && totalReceita.toFixed(0) == 0) return '0%'
+    const percent = (totalDespesa / totalReceita * 100).toFixed(0)
+    return `${percent > 100 ? '+100' : percent}%`
   }
 
 
@@ -164,6 +176,59 @@ export default function Dashboard({ navigation }) {
     </View>
   )
 
+  const MyPieChart = () => (
+    <PieChart
+      style={styles.chart}
+      logEnabled={true}
+      data={{
+        dataSets: [{
+          values: [{ value: totalDespesa },
+          { value: totalDespesa >= saldo ? 0 : saldo },],
+          label: 'Pie dataset',
+          config: {
+            colors: [
+              processColor((totalReceita.toFixed(0) == 0 && totalDespesa.toFixed(0) == 0) ? theme.color.primary : theme.color.danger),
+              processColor(theme.color.success)],
+            valueTextSize: 0,
+            valueTextColor: processColor('green'),
+            sliceSpace: 0,
+            selectionShift: 0,
+
+            valueFormatter: "#.#'%'",
+            valueLineColor: processColor('green'),
+            valueLinePart1Length: 0.5
+          }
+        }],
+        legend: {
+          enabled: false
+        }
+      }}
+      legend={{
+        enabled: false,
+      }}
+      highlights={[{ x: 1 }]}
+
+      entryLabelColor={processColor('green')}
+      entryLabelTextSize={20}
+      drawEntryLabels={false}
+      chartDescription={{ text: '' }}
+      rotationEnabled={true}
+      rotationAngle={45}
+      usePercentValues={true}
+      styledCenterText={{
+        text: chartPercent(),
+        color: processColor(theme.color.primary),
+        size: 56
+      }}
+      centerTextRadiusPercent={100}
+      holeRadius={92}
+      holeColor={processColor('#fff')}
+      transparentCircleColor={processColor('#f0f0f088')}
+      maxAngle={360}
+      onChange={(event) => console.log(event.nativeEvent)}
+
+    />
+  )
 
 
   return (
@@ -208,9 +273,28 @@ export default function Dashboard({ navigation }) {
           justifyContent: 'center'
         }}
       >
-        
+        <View style={styles.container}>
+          {
+            (totalDespesa && totalReceita) &&
+
+            <MyPieChart />
+          }
+        </View>
+
+
       </View>
 
     </SelectMonthContainer>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  chart: {
+    width: 230,
+    height: 230,
+    alignSelf: 'center'
+  }
+});

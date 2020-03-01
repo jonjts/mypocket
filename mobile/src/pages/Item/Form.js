@@ -203,6 +203,15 @@ const Form = ({ navigation, ...props }) => {
     }
   }
 
+  function onChangeItem({ id }) {
+    dispacth({
+      type: ItensTypes.CHANGED,
+      params: {
+        id
+      },
+    })
+  }
+
   const deleteItem = async () => {
     try {
       const realm = await getRealm();
@@ -219,13 +228,7 @@ const Form = ({ navigation, ...props }) => {
           id: item.id
         },
       })
-
-      dispacth({
-        type: ItensTypes.CHANGED,
-        params: {
-          id: item.id
-        },
-      })
+      onChangeItem(item)
 
       //Exibe a mensagem de successo
       navigation.goBack()
@@ -340,16 +343,24 @@ const Form = ({ navigation, ...props }) => {
               error={errors.realizado_em}
             />
             <View
-              style={styles.inputContainer}
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                paddingTop: 24,
+                paddingBottom: 13
+              }}
             >
-              <TextField
-                label="Descrição"
-                placeholder="Digite uma descrição..."
-                multiline
-                onChangeText={setDescricao}
-                value={descricao}
-                error={errors.descricao}
-              />
+              {
+                tipos.map((item, key) => (
+                  <RadioButton
+                    key={key}
+                    label={item.nome}
+                    selected={tipo == item.id}
+                    onPress={() => setTipo(item.id)}
+                  />
+                ))
+              }
             </View>
             <MaskTextField
               label="Valor"
@@ -369,25 +380,18 @@ const Form = ({ navigation, ...props }) => {
               }}
               error={errors.valor}
             />
+
             <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                paddingTop: 24,
-                paddingBottom: 13
-              }}
+              style={styles.inputContainer}
             >
-              {
-                tipos.map((item, key) => (
-                  <RadioButton
-                    key={key}
-                    label={item.nome}
-                    selected={tipo == item.id}
-                    onPress={() => setTipo(item.id)}
-                  />
-                ))
-              }
+              <TextField
+                label="Descrição"
+                placeholder="Digite uma descrição..."
+                multiline
+                onChangeText={setDescricao}
+                value={descricao}
+                error={errors.descricao}
+              />
             </View>
 
             <SelectField

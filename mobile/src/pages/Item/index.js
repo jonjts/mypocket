@@ -249,7 +249,14 @@ export default function Itens({ navigation }) {
         model.sent_at = null
       })
 
-      dispatch({
+     await dispacth({
+        type: ItensTypes.CHANGED,
+        params: {
+          id: itemToDelete
+        },
+      })
+
+      await dispatch({
         type: ItensTypes.DELETE_CLOUD_ITEM,
         params: {
           id: itemToDelete
@@ -266,6 +273,7 @@ export default function Itens({ navigation }) {
           msg: 'Item removido',
         }), 1000)
     } catch (error) {
+      throw error
       console.log(error)
       showSnack({
         error: true,
