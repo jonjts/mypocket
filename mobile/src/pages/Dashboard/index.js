@@ -4,7 +4,6 @@ import moment from "moment";
 import { useSelector } from 'react-redux'
 
 import { PieChart } from 'react-native-charts-wrapper';
-import { LineChart } from 'react-native-charts-wrapper';
 import NumberFormat from 'react-number-format';
 import ShimmerPlaceHolder from 'react-native-shimmer-placeholder'
 import Card from '~/components/Card'
@@ -177,57 +176,71 @@ export default function Dashboard({ navigation }) {
   )
 
   const MyPieChart = () => (
-    <PieChart
-      style={styles.chart}
-      logEnabled={true}
-      data={{
-        dataSets: [{
-          values: [{ value: totalDespesa },
-          { value: totalDespesa >= saldo ? 0 : saldo },],
-          label: 'Pie dataset',
-          config: {
-            colors: [
-              processColor((totalReceita.toFixed(0) == 0 && totalDespesa.toFixed(0) == 0) ? theme.color.primary : theme.color.danger),
-              processColor(theme.color.success)],
-            valueTextSize: 0,
-            valueTextColor: processColor('green'),
-            sliceSpace: 0,
-            selectionShift: 0,
+    <View style={{ width: '100%', alignItems: 'center' }}>
+      <PieChart
+        style={styles.chart}
+        logEnabled={true}
+        data={{
+          dataSets: [{
+            values: [{ value: totalDespesa },
+            { value: totalReceita.toFixed(0) <= 0 ? 0 : saldo },],
+            label: 'Pie dataset',
+            config: {
+              colors: [
+                processColor((totalReceita.toFixed(0) == 0 && totalDespesa.toFixed(0) == 0) ? theme.color.primary : theme.color.danger),
+                processColor(theme.color.success)],
+              valueTextSize: 0,
+              valueTextColor: processColor('green'),
+              sliceSpace: 0,
+              selectionShift: 0,
 
-            valueFormatter: "#.#'%'",
-            valueLineColor: processColor('green'),
-            valueLinePart1Length: 0.5
+              valueFormatter: "#.#'%'",
+              valueLineColor: processColor('green'),
+              valueLinePart1Length: 0.5
+            }
+          }],
+          legend: {
+            enabled: false
           }
-        }],
-        legend: {
-          enabled: false
-        }
-      }}
-      legend={{
-        enabled: false,
-      }}
-      highlights={[{ x: 1 }]}
+        }}
+        legend={{
+          enabled: false,
+        }}
+        highlights={[{ x: 1 }]}
+        animation={{
+          durationX: 500,
+          durationY: 500,
+        }}
+        entryLabelColor={processColor('green')}
+        entryLabelTextSize={20}
+        drawEntryLabels={false}
+        chartDescription={{ text: '' }}
+        rotationEnabled={true}
+        rotationAngle={45}
+        usePercentValues={true}
+        styledCenterText={{
+          text: chartPercent(),
+          color: processColor(theme.color.primary),
+          size: 56
+        }}
+        centerTextRadiusPercent={100}
+        holeRadius={92}
+        holeColor={processColor('#fff')}
+        transparentCircleColor={processColor('#f0f0f088')}
+        maxAngle={360}
+        onChange={(event) => console.log(event.nativeEvent)}
 
-      entryLabelColor={processColor('green')}
-      entryLabelTextSize={20}
-      drawEntryLabels={false}
-      chartDescription={{ text: '' }}
-      rotationEnabled={true}
-      rotationAngle={45}
-      usePercentValues={true}
-      styledCenterText={{
-        text: chartPercent(),
-        color: processColor(theme.color.primary),
-        size: 56
-      }}
-      centerTextRadiusPercent={100}
-      holeRadius={92}
-      holeColor={processColor('#fff')}
-      transparentCircleColor={processColor('#f0f0f088')}
-      maxAngle={360}
-      onChange={(event) => console.log(event.nativeEvent)}
-
-    />
+      />
+      <View
+        style={styles.gauge}
+      >
+        <Text
+          style={styles.gaugeText}
+        >
+          Gastos da receita
+        </Text>
+      </View>
+    </View>
   )
 
 
@@ -296,5 +309,19 @@ const styles = StyleSheet.create({
     width: 230,
     height: 230,
     alignSelf: 'center'
-  }
+  },
+  gauge: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  gaugeText: {
+    backgroundColor: 'transparent',
+    color: theme.color.secondary,
+    fontSize: 14,
+    fontWeight: 'normal',
+    marginTop: 60
+  },
 });

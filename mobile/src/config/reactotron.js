@@ -5,9 +5,9 @@ import sagaPlugin from 'reactotron-redux-saga'
 console.disableYellowBox = true
 
 Reactotron.configure({
-  name: 'mypocket'
-  // host: '10.0.1.1',
-  // port: 9091
+  name: 'mypocket',
+   host: '192.168.0.6',
+   port: 9090
 })
 
 // add every built-in react native feature.  you also have the ability to pass

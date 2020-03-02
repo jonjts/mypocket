@@ -1,11 +1,11 @@
 import React from 'react';
-
+import theme from '~/theme/light'
 import moment from 'moment'
 
 import NumberFormat from 'react-number-format';
 import Icon from 'react-native-vector-icons/Feather';
 import Swipeout from 'react-native-swipeout';
-import theme from '~/theme/light'
+import ShimmerPlaceHolder from 'react-native-shimmer-placeholder'
 import {
     View,
     Text,
@@ -34,32 +34,45 @@ export default ({ item, onDelete, onEdit }) => {
                     paddingRight: 16
                 }}
             >
-                <Text
-                    style={{
-                        fontSize: 22,
-                        lineHeight: 28,
-                        fontWeight: 'bold',
-                        color: theme.color.default,
-                        alignSelf: 'center',
-                    }}
-                >
-                    {
-                        item.realizado_em.getDate()
-                    }
-                </Text>
-                <Text
-                    style={{
-                        fontSize: 12,
-                        lineHeight: 14,
-                        fontWeight: 'bold',
-                        alignSelf: 'center',
-                        color: theme.color.default,
-                    }}
-                >
-                    {
-                        moment(item.realizado_em).format('MMM')
-                    }
-                </Text>
+                <ShimmerPlaceHolder
+                    style={{ marginBottom: 4 }}
+                    width={40}
+                    autoRun={true}
+                    visible={item.id}>
+                    <Text
+                        style={{
+                            fontSize: 22,
+                            lineHeight: 28,
+                            fontWeight: 'bold',
+                            color: theme.color.default,
+                            alignSelf: 'center',
+                        }}
+                    >
+                        {
+                            item.realizado_em ? item.realizado_em.getDate() : null
+                        }
+                    </Text>
+                </ShimmerPlaceHolder>
+                <ShimmerPlaceHolder
+                    style={{ marginBottom: 4 }}
+                    width={40}
+                    height={10}
+                    autoRun={true}
+                    visible={item.id}>
+                    <Text
+                        style={{
+                            fontSize: 12,
+                            lineHeight: 14,
+                            fontWeight: 'bold',
+                            alignSelf: 'center',
+                            color: theme.color.default,
+                        }}
+                    >
+                        {
+                            item.realizado_em ? moment(item.realizado_em).format('MMM') : null
+                        }
+                    </Text>
+                </ShimmerPlaceHolder>
             </View>
             <View
                 style={{
@@ -81,28 +94,42 @@ export default ({ item, onDelete, onEdit }) => {
                 alignSelf: 'center',
             }}
         >
-            <Text
-                style={{
-                    fontSize: 12,
-                    lineHeight: 14,
-                    color: theme.color.default,
-                }}
-            >
-                {
-                    item.descricao
-                }
-            </Text>
-            <Text
-                style={{
-                    fontSize: 12,
-                    lineHeight: 14,
-                    color: theme.color.secondary,
-                }}
-            >
-                {
-                    item.categoria.nome
-                }
-            </Text>
+            <ShimmerPlaceHolder
+                style={{ marginBottom: 4 }}
+                width={80}
+                autoRun={true}
+                visible={item.id}>
+                <Text
+                    style={{
+                        fontSize: 12,
+                        lineHeight: 14,
+                        color: theme.color.default,
+                    }}
+                >
+                    {
+                        item.descricao
+                    }
+                </Text>
+            </ShimmerPlaceHolder>
+
+            <ShimmerPlaceHolder
+                style={{ marginBottom: 4 }}
+                height={10}
+                width={60}
+                autoRun={true}
+                visible={item.id}>
+                <Text
+                    style={{
+                        fontSize: 12,
+                        lineHeight: 14,
+                        color: theme.color.secondary,
+                    }}
+                >
+                    {
+                        item.categoria ? item.categoria.nome : null
+                    }
+                </Text>
+            </ShimmerPlaceHolder>
 
         </View>
     )
@@ -118,27 +145,37 @@ export default ({ item, onDelete, onEdit }) => {
                 marginRight: 12,
             }}
         >
-            <Text
-                style={{
-                    fontSize: 12,
-                    lineHeight: 14,
-                    color: item.tipo == 'R' ? theme.color.default : theme.color.danger,
-                }}
-            >
-                {item.tipo == 'R' ? '+ ' : '- '}
+            <ShimmerPlaceHolder
+                style={{ marginBottom: 4 }}
+                width={64}
+                autoRun={true}
+                visible={item.id}>
+                {
+                    item.id &&
+                    <Text
+                        style={{
+                            fontSize: 12,
+                            lineHeight: 14,
+                            color: item.tipo == 'R' ? theme.color.default : theme.color.danger,
+                        }}
+                    >
+                        {item.tipo == 'R' ? '+ ' : '- '}
 
-                <NumberFormat
-                    value={item.valor}
-                    displayType={'text'}
-                    thousandSeparator={true}
-                    decimalScale={2}
-                    prefix={'R$ '}
-                    fixedDecimalScale={true}
-                    renderText={value => <Text >
-                        {value}
-                    </Text>}
-                />
-            </Text>
+                        <NumberFormat
+                            value={item.valor}
+                            displayType={'text'}
+                            thousandSeparator={true}
+                            decimalScale={2}
+                            prefix={'R$ '}
+                            fixedDecimalScale={true}
+                            renderText={value => <Text >
+                                {value}
+                            </Text>}
+                        />
+                    </Text>
+                }
+            </ShimmerPlaceHolder>
+
         </View>
     )
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment'
 import getRealm from '~/services/realm';
+import NetInfo from "@react-native-community/netinfo";
 
 import theme from '~/theme/light'
 
@@ -16,10 +17,8 @@ import NumberFormat from 'react-number-format';
 import Snackbar from 'react-native-snackbar';
 
 import {
-  SafeAreaView,
   Text,
   View,
-  StyleSheet,
 } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -34,6 +33,7 @@ export default function Itens({ navigation }) {
   const [pageProperties, setPageProperties] = useState({ page: -1, limit: 10 })
   //Indica se exite mais itens para serem carregados
   const [hasMoreToLoad, setHasMoreToLoad] = useState(true)
+  const [hasConnection, setHasconnection] = useState(true)
 
   //Indica o item que será removido
   const [itemToDelete, setItemToDelete] = useState(null)
@@ -51,17 +51,16 @@ export default function Itens({ navigation }) {
 
   useEffect(() => {
     setItens([])
-    if (!loadingItens) {
+    if (!hasConnection || !loadingItens) {
       setPageProperties({
         ...pageProperties,
         page: 1,
       })
-      loadDashboard()
+      loadDashboard();
     }
-  }, [loadingItens])
+  }, [loadingItens, hasConnection])
 
   useEffect(() => {
-    if (month == null) return
     setItens([])
     setPageProperties({
       ...pageProperties,
@@ -72,6 +71,7 @@ export default function Itens({ navigation }) {
 
   useEffect(() => {
     if (pageProperties.page === 0) {
+      setHasMoreToLoad(true)
       dispatchFindAllItens()
       setTotalReceitas(null)
       setTotalDespesas(null)
@@ -108,15 +108,21 @@ export default function Itens({ navigation }) {
 
   function dispatchFindAllItens() {
     try {
-      dispatch({
-        type: ItensTypes.FIND_ALL,
-        params: {
-          month: month.month() + 1,
-          year: month.year(),
-          limit: 1000
-        },
-        loading: true
-      })
+      NetInfo.fetch().then(state => {
+        console.log("Is connected?", state.isConnected)
+        setHasconnection(state.isConnected)
+        if (state.isConnected) {
+          dispatch({
+            type: ItensTypes.FIND_ALL,
+            params: {
+              month: month.month() + 1,
+              year: month.year(),
+              limit: 1000
+            },
+            loading: true
+          })
+        }
+      });
     } catch (error) {
       console.warn(error)
       showSnack({
@@ -249,14 +255,14 @@ export default function Itens({ navigation }) {
         model.sent_at = null
       })
 
-     await dispacth({
+      dispatch({
         type: ItensTypes.CHANGED,
         params: {
           id: itemToDelete
         },
       })
 
-      await dispatch({
+      dispatch({
         type: ItensTypes.DELETE_CLOUD_ITEM,
         params: {
           id: itemToDelete
@@ -271,9 +277,8 @@ export default function Itens({ navigation }) {
       setTimeout(() =>
         showSnack({
           msg: 'Item removido',
-        }), 1000)
+        }), 1100)
     } catch (error) {
-      throw error
       console.log(error)
       showSnack({
         error: true,

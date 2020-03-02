@@ -24,34 +24,28 @@ export default ({
 }) => {
 
     const progress = () => (
-        <ActivityIndicator
+        <View
             style={{
-                height: 100
+                paddingTop: 12
             }}
-            size="small"
-            color={theme.color.primary} />
+        >
+            {[1, 2, 3, 4].map(item => (
+                <Element item={{}} />
+            ))}
+        </View>
     )
 
     const emptyList = () => (
-        <View
-            key={(new Date()).toLocaleString()}
+        !loading &&
+        <Text
             style={{
-                display: 'flex',
-                flex: 1,
-                justifyContent: 'center',
-                alignContent: 'center',
-                alignSelf: 'center',
+                color: theme.color.secondary,
+                paddingTop: 12,
+                alignSelf: 'center'
             }}
         >
-            <Text
-                style={{
-                    color: theme.color.secondary,
-                }}
-            >
-                {loading ? 'Procurando...' : 'Nenhum item encontrado'}
-            </Text>
-
-        </View>
+            {'Nenhum item encontrado'}
+        </Text>
     )
 
     return (
