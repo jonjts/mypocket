@@ -3,6 +3,7 @@ import getRealm from '~/services/realm';
 import moment from "moment";
 import { useSelector } from 'react-redux'
 
+import Icon from 'react-native-vector-icons/Feather';
 import { PieChart } from 'react-native-charts-wrapper';
 import NumberFormat from 'react-number-format';
 import ShimmerPlaceHolder from 'react-native-shimmer-placeholder'
@@ -19,6 +20,7 @@ import {
 export default function Dashboard({ navigation }) {
 
   const [showSelectMonth, setShowSelectMonth] = useState(false)
+  const [showValores, setShowValores] = useState(true)
   const [month, setMonth] = useState(moment().locale('pt-br'))
 
   const [totalReceita, setTotalReceita] = useState(null)
@@ -149,9 +151,9 @@ export default function Dashboard({ navigation }) {
         }}
       >
         <ShimmerPlaceHolder
-          width={40}
-          autoRun={true}
-          visible={valor != null}>
+          width={60}
+          autoRun={showValores}
+          visible={showValores}>
           <NumberFormat
             value={valor}
             displayType={'text'}
@@ -243,11 +245,23 @@ export default function Dashboard({ navigation }) {
     </View>
   )
 
+  const hiddeShowIcon = () => (
+    <Icon
+      name={showValores ? 'eye' : 'eye-off'}
+      size={18}
+      color="#fff"
+    />
+  )
+
 
   return (
     <SelectMonthContainer
       onMonthChanged={setMonth}
       monitorToHide={showSelectMonth}
+      rightHeaderAcion={() => {
+        setShowValores(!showValores)
+      }}
+      rightHeaderComponent={hiddeShowIcon()}
     >
       <Card
         style={{

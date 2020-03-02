@@ -18,6 +18,8 @@ export default ({
     onMonthChanged,
     children,
     monitorToHide,
+    rightHeaderComponent,
+    rightHeaderAcion,
     ...props }) => {
 
     return (
@@ -25,6 +27,8 @@ export default ({
 
             <View style={StyleSheet.absoluteFill, { flex: 1 }}>
                 <Header
+                    rightComponent={rightHeaderComponent}
+                    rightAcion={rightHeaderAcion}
                 />
                 <View style={
                     utils.styles.mainContainer

@@ -11,7 +11,7 @@ import {
     View
 } from 'react-native';
 
-const Header = ({ navigation, title = 'MyPocket', ...props }) => {
+const Header = ({ navigation, title = 'MyPocket', rightComponent, rightAcion, ...props }) => {
 
     const [showMenuButton, setShowMenuButton] = useState(props.showMenu != null ? props.showMenu : true)
 
@@ -83,7 +83,7 @@ const Header = ({ navigation, title = 'MyPocket', ...props }) => {
                     </Text>
                     <TouchableOpacity
                         style={[styles.mainHeaderRight, { height: 24, width: 24 }]}
-                        onPress={() => { props.rightAcion ? props.rightAcion() : null }}
+                        onPress={() => { rightAcion ? rightAcion() : null}}
                     >
                         {
                             props.showBack ?
@@ -93,12 +93,12 @@ const Header = ({ navigation, title = 'MyPocket', ...props }) => {
                                     size={18}
                                     color="#fff"
                                 />
-                                :
-                                <Icon
-                                    name="search"
-                                    size={18}
-                                    color="#fff"
-                                />
+                                : rightComponent ? rightComponent :
+                                    <Icon
+                                        name="search"
+                                        size={18}
+                                        color="#fff"
+                                    />
                         }
 
                     </TouchableOpacity>
