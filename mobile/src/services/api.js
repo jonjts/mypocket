@@ -6,6 +6,8 @@ const api = axios.create({
   baseURL: 'http://192.168.0.6:3333/api',
 });
 
+api.defaults.timeout =  60 * .3 * 1000; // 30 sec
+
 api.interceptors.request.use(async config => {
   const token = await AsyncStorage.getItem("@token");
   if (token) {
