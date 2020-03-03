@@ -33,7 +33,7 @@ const PasswordTextField = props => {
                     style={styles.textBox} />
                 <TouchableOpacity activeOpacity={0.8} style={styles.visibilityBtn} onPress={this.managePasswordVisibility}>
                     <Icon 
-                    name={ hidePassword ? 'eye-off' : 'eye'} 
+                    name={ hidePassword ? 'eye' : 'eye-off'} 
                     size={16}
                     color={ props.error ? '#FC451D' : '#BDBDBD'} />
                 </TouchableOpacity>

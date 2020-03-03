@@ -252,7 +252,7 @@ export default function Dashboard({ navigation }) {
 
   const hiddeShowIcon = () => (
     <Icon
-      name={showValores ? 'eye' : 'eye-off'}
+      name={showValores ? 'eye-off' : 'eye'}
       size={18}
       color="#fff"
     />
