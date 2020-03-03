@@ -14,7 +14,6 @@ import {
     View
 } from 'react-native';
 import util from '../../utils';
-import Snackbar from 'react-native-snackbar';
 
 export default function SplashScreen({ navigation }) {
 
@@ -28,7 +27,6 @@ export default function SplashScreen({ navigation }) {
         await this.performTimeConsumingTask();
 
         dispatch({ type: CategoriasTypes.UPDATE_CATEGORIAS })
-
 
         const credentials = await util.credentials()
 

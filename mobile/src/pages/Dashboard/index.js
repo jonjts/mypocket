@@ -17,10 +17,12 @@ import {
   processColor
 } from 'react-native';
 
+import { ItensTypes } from '~/store/ducks/itens'
+import { useDispatch } from 'react-redux'
+
 export default function Dashboard({ navigation }) {
 
   const [showSelectMonth, setShowSelectMonth] = useState(false)
-  const [showValores, setShowValores] = useState(true)
   const [month, setMonth] = useState(moment().locale('pt-br'))
 
   const [totalReceita, setTotalReceita] = useState(null)
@@ -28,6 +30,9 @@ export default function Dashboard({ navigation }) {
   const [saldo, setSaldo] = useState(0.0)
 
   const itensChange = useSelector(state => state.itens.token)
+  const showValores = useSelector(state => state.itens.showMyValues)
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     loadDashboard()
@@ -259,7 +264,7 @@ export default function Dashboard({ navigation }) {
       onMonthChanged={setMonth}
       monitorToHide={showSelectMonth}
       rightHeaderAcion={() => {
-        setShowValores(!showValores)
+        dispatch({ type: ItensTypes.SHOW_MY_VALUES, params: { show: !showValores } })
       }}
       rightHeaderComponent={hiddeShowIcon()}
     >

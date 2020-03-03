@@ -45,8 +45,8 @@ const MainNavigation = createStackNavigator({
 
 const InitialNavigator = createSwitchNavigator({
   Splash: SplashScreen,
-  Auth,
   Main: MainNavigation,
+  Auth,
 },
   {
     transitionConfig: () => fadeIn(500),
