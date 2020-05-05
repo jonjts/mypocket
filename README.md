@@ -11,7 +11,7 @@ Tip: This mobile app was started using Rocketseat advanced tamplate, [chekout.](
 Be sure to follow the Project part before start this session.
 
 ## Backend
-First, create a database to the project and create a .env file in the backend folder, this .env will be a copy to .env.example with the every field filled. After that, run `yarn install`, `adonis migration:run` and `adnis serve --dev`to start the server.
+First, create a database to the project and create a .env file in the backend folder, this .env will be a copy to .env.example with the every field filled. After that, run `yarn install`, `adonis migration:run` and `adonis serve --dev`to start the server.
 
 ## Frontend
 In the mobile folder, run `yarn install`, when finished, you can plugin your device or start a emulator to run the app. Ahh, remember to change the server address in `/mobile/src/services/api.js`
