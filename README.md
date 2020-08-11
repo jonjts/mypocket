@@ -3,6 +3,7 @@
 Hi there, this is a app to manager bills.
 You can add yours recipes and expenses and create goals to help with your life objectives.
 
+
 # Project
 This is a offline first app made with react-native, AdonisJs at backend and postgresql database. To run the project, you need to install [postgresql](https://www.postgresql.org/), [nodeJs](https://nodejs.org/en/), [react-native](https://reactnative.dev/) and I recomend you install the [Adonis CLI](https://adonisjs.com/docs/4.1/installation) and [yarn](https://classic.yarnpkg.com/pt-BR/docs/install/) too (it will help you in the future). 
 Tip: This mobile app was started using Rocketseat advanced tamplate, [chekout.](https://github.com/Rocketseat/react-native-template-rocketseat-advanced)
@@ -18,3 +19,11 @@ In the mobile folder, run `yarn install`, when finished, you can plugin your dev
 
 ## OBS
 This project is current tested in an android environment, I don't have sure about the behavior app in an IOS device.
+
+# Screenshots
+
+<img src="https://github.com/jonjts/mypocket/blob/master/screenshots/splash.jpg"  width="300" height="550" />
+<img src="https://github.com/jonjts/mypocket/blob/master/screenshots/home.jpg"  width="300" height="550" />
+<img src="https://github.com/jonjts/mypocket/blob/master/screenshots/items-2.jpg"  width="300" height="550" />
+<img src="https://github.com/jonjts/mypocket/blob/master/screenshots/list-items.jpg"  width="300" height="550" />
+<img src="https://github.com/jonjts/mypocket/blob/master/screenshots/profile.jpg"  width="300" height="550" />
